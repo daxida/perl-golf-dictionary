@@ -1,0 +1,104 @@
+@font-face {
+  font-family: Monocraft;
+  src: url(Monocraft.ttf)
+}
+
+html, body {
+  height: 97%;
+  width: 99%;
+  font-family: Monocraft;
+  color: #f3f3f3;
+  background-color: #111111;
+}
+
+.dropdown {
+  display: none;
+  
+}
+
+.show {
+  display: block;
+}
+
+table {
+  white-space: pre-wrap;
+  border-spacing: 0.5em 0.5em;
+  table-layout:fixed;
+  width:100%;
+}
+
+.table-example {
+
+	border-collapse: collapse;
+}
+
+input {
+  width: 50em;
+  height: 2em;
+}
+
+.tr-example {
+	border-bottom: 1px solid red;
+  /* border-width: 0.2em; */
+}
+.tr-example:nth-last-child(1) {
+   border-bottom: none;
+}
+
+
+.snippet {
+	margin-top: 0.5em;
+	margin-right: 0.2em;
+	margin-left: 0.2em;
+	margin-bottom: 0.5em;
+  padding: 0.2em 0.2em 0.2em 0.2em;
+  text-align: left;
+  font-weight: normal;
+  display: inline-block;
+  white-space: pre-wrap;
+  vertical-align:top;
+  background-color: #333333;
+}
+
+
+button {
+	background-color: orange;
+  font-family: Monocraft;
+  padding: 0.2em;
+  border: none;
+  width: 100%;
+}
+
+.cm-header {color: blue;}
+.cm-quote {color: #090;}
+.cm-negative {color: #d44;}
+.cm-positive {color: #292;}
+.cm-header, .cm-strong {font-weight: bold;}
+.cm-em {font-style: italic;}
+.cm-link {text-decoration: underline;}
+.cm-strikethrough {text-decoration: line-through;}
+
+.cm-keyword {color: #f08;}
+.cm-atom {color: #219;}
+.cm-number {color: #1f4;}
+.cm-def {color: #00f;}
+.cm-variable {color: #0fa;},
+.cm-punctuation,
+.cm-property,
+.cm-operator {}
+.cm-variable-2 {color: #0fa;}
+.cm-variable-3, .cm-type {color: #085;}
+.cm-comment {color: #a50;}
+.cm-string {color: #f11;}
+.cm-string-2 {color: #f50;}
+.cm-meta {color: #555;}
+.cm-qualifier {color: #555;}
+.cm-builtin {color: #30a;}
+.cm-bracket {color: #997;}
+.cm-tag {color: #170;}
+.cm-attribute {color: #00c;}
+.cm-hr {color: #999;}
+.cm-link {color: #00c;}
+
+.cm-error {color: #f00;}
+.cm-invalidchar {color: #f00;}

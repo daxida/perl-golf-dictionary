@@ -1,9 +1,82 @@
 const QUERY = (() => {/*
+# ($`, $') = split $", <>;
+<> =~ $"
+---
+split $" seperated line once into 2 variables $` and $' respectively
+***
+# $` = <>; $' = `dd`;
+`dd` =~ $/
+---
+split $/ seperated all of input into $` and $'
+***
+vec
+---
+vec
+***
+$A x $B
+---
+string multiplication of $A by $B
+***
+sqrt
+---
+sqrt
+***
+oct
+---
+oct
+***
+hex
+---
+hex
+***
+printf
+---
+print values after applying format
+iii
+ccc
+printf "%02d:02d", 5, 32;
+ooo
+05:32
+iii
+5
+ccc
+printf "%b", <>
+ooo
+101
+iii
+8
+ccc
+printf "%o", <>
+ooo
+10
+iii
+15
+ccc
+printf "%x", <>
+ooo
+f
+***
+sprintf
+---
+return value of printf
+iii
+5
+ccc
+print sprintf("%b", <>) =~ y/0//
+ooo
+1
+***
+$_ = "we
+go";
+$T.=join("",/^./mg).$/while s///g
+---
+transpose $_ with \n seperated values and store in $T
+***
 $a = 3;
 $b = 5;
 print+(<@ like chicken>)[$a <=> $b];
 ---
-3 way comparison
+3 way comparison with $ and $b
 less last, equal earliest, greater goldilocks (give me a better last one lol)
 ***
 @A = qw(i like chicken);
@@ -349,17 +422,17 @@ ooo
 const QUERY_ARR = QUERY.split("\n***\n");
 // console.log(QUERY_ARR);
 const CODE_ARR = QUERY_ARR.map(query => {
-	console.log(query);
+  console.log(query);
   var [code, desc_pre] = query.split("\n---\n");
   var [desc, ...example_str_arr] = desc_pre.split("\niii\n");
   example_arr = example_str_arr.map(example_str => {var [stdin, code, stdout] = example_str.split(/\n?(?:ccc|ooo)\n/g); 
-		if (stdin === "") {
-			return [code, stdout];
-		} else {
-			return [stdin, code, stdout];
-		}
-	});
-	return example_arr.length == 0 ? [code, desc] :[code, desc, example_arr];
+    if (stdin === "") {
+      return [code, stdout];
+    } else {
+      return [stdin, code, stdout];
+    }
+  });
+  return example_arr.length == 0 ? [code, desc] :[code, desc, example_arr];
 });
 
 console.log(CODE_ARR);
@@ -373,7 +446,7 @@ async function code_arr_text(code_arr) {
     <table border="5">
     <tr>
   <td style="width:60vh" class="code-x" id = "code-${ind}">${code}</td>
-  <td style="width:60vh" class="code" id = "code-${ind}">${code}</td>
+  <textarea class="code" id = "code-${ind}">${code}</textarea>
   <td style="width:35vh">${description}</td>
   <td style="width:5vh">
     <button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>
@@ -382,27 +455,27 @@ async function code_arr_text(code_arr) {
 </table>
 `;
     ind += 1;
-		var example_dropdown = ""
-		if (typeof example_arr === "undefined") {
-			z = z.replace(`    <button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>`, "")
-		} else {
-			example_dropdown = example_arr.map(e => {
-      var stdin = "";
-      // console.log(e);
-      if (e.length == 3) {
-        [stdin, c, stdout] = e;
-        stdin = `<td class="snippet">${stdin}</td>`;
-      } else {
-        stdin = "";
-        [c, stdout] = e;
-      }
-      n = `<tr class="tr-example">
-  <td class="code" id = "snippet code-${ind}">${c}</td>${stdin}<td class="snippet code-x" id = "code-${ind}">${c}</td><td class="snippet">${stdout}</td>
-</tr>`;
-      ind += 1;
-      return n;
-    }).join("\n");
-		}
+    var example_dropdown = ""
+    if (typeof example_arr === "undefined") {
+      z = z.replace(`    <button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>`, "")
+    } else {
+      example_dropdown = example_arr.map(e => {
+        var stdin = "";
+        // console.log(e);
+        if (e.length == 3) {
+          [stdin, c, stdout] = e;
+          stdin = `<td class="snippet">${stdin}</td>`;
+        } else {
+          stdin = "";
+          [c, stdout] = e;
+        }
+        n = `<tr class="tr-example">
+    <textarea class="code" id = "code-${ind}">${c}</textarea>${stdin}<td class="snippet code-x" id = "code-${ind}">${c}</td><td class="snippet">${stdout}</td>
+  </tr>`;
+        ind += 1;
+        return n;
+      }).join("\n");
+    }
 
     z += `<table class="table-example dropdown ${i}">${example_dropdown}</table>`;
 
@@ -414,12 +487,9 @@ async function code_arr_text(code_arr) {
 async function code_mirror_rep() {
   // console.log([...document.getElementsByClassName("code")]);
   [...document.getElementsByClassName("code")].sort((a, b) => a.id.split("-")[1] - b.id.split("-")[1]).map(elem => {
-    // console.log("eleme there", elem);
-    var editor = CodeMirror(function(elt) {
-      elem.parentNode.replaceChild(elt, elem);
-    }, { value: elem.innerText.replaceAll("\n", ";🦋;").replaceAll("&amp;", "&").replaceAll("&gt;", ">").replaceAll("&lt;", "<"), readOnly: "nocursor" });
-    // editor.setSize(10000,10000);
-
+    console.log("eleme there", elem);
+    var editor = CodeMirror.fromTextArea(elem, {}, elem.id);
+    console.log(editor.chicken);
   })
 }
 
@@ -434,32 +504,20 @@ async function syntax_rep() {
     }
 
 
-    let a = document.getElementsByClassName("CodeMirror");
-    [...a].map(x => x.remove());
+    var code_x_elem_arr = [...document.getElementsByClassName("code-x")];
     var code_ind = 0;
-    var span_string = BUILDER_BIG.map((line) => {
-      console.log("line", line.pre.children[0].innerHTML);
-      var bruh_string = line.pre.children[0].innerHTML;
-      console.log(document.getElementById(`code-${code_ind}`));
-      // console.log("next");
-      // console.log(line);
-      // console.log(line.pre.children[0].innerHTML);
-      // console.log(`code-${code_ind}`);
-      try {
-        document.getElementById(`code-${code_ind}`).innerHTML = bruh_string.replaceAll(";🦋;", "\n");
-        code_ind += 1;
-      }
-      catch (err) {
-        console.log(err);
-      }
-
-
-
-      return bruh_string;
-    }).join("\n");
+    console.log("builder big is what", BUILDER_BIG);
+    // var span_string = BUILDER_BIG.map((builder_line) => {
+    Object.keys(BUILDER_BIG).forEach(function (builder_id) { 
+      var code_elem_arr = [...BUILDER_BIG[builder_id].children];
+      var code_text = code_elem_arr.map(ce => [...ce.childNodes][0].innerHTML).join("\n");
+      code_x_elem_arr.find(cx => cx.id == builder_id).innerHTML = code_text;
+    })
+    var a = [...document.getElementsByClassName("CodeMirror")]
+    a.map(x => x.remove());
 
     clearInterval(SYNTAX_LOOP);
-    BUILDER_BIG = [];
+    BUILDER_BIG = {};
   }, 10);
 }
 
@@ -474,23 +532,23 @@ async function main(code_arr) {
 
 $(document).ready(() => {
   main(CODE_ARR);
-	$("#QUERY").on("keyup", (e) => {
-		console.log("huh");
-		if (e.keyCode != 13) {
-			return;
-		}
-		// console.log("HI");
-		var query = $("#QUERY").val();
-		console.log("HI");
+  $("#QUERY").on("keyup", (e) => {
+    console.log("huh");
+    if (e.keyCode != 13) {
+      return;
+    }
+    // console.log("HI");
+    var query = $("#QUERY").val();
+    console.log("HI");
 
 
-		main(CODE_ARR.filter(x => {
-			[code, description, example_arr] = x;
+    main(CODE_ARR.filter(x => {
+      [code, description, example_arr] = x;
 
-			var raw_re = new RegExp(String.raw`${query}`);
-			var re = new RegExp(query);
-			return re.test(code) || raw_re.test(code)
-				|| re.test(description) || raw_re.test(description)
-		}));
-	});
+      var raw_re = new RegExp(String.raw`${query}`);
+      var re = new RegExp(query);
+      return re.test(code) || raw_re.test(code)
+        || re.test(description) || raw_re.test(description)
+    }));
+  });
 });

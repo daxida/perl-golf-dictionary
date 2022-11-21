@@ -7,7 +7,7 @@
 // You can find some technical background for some of the code below
 // at http://marijnhaverbeke.nl/blog/#cm-internals .
 
-var BUILDER_BIG = [];
+var BUILDER_BIG = {};
 // var build_big_len_old = 0;
 var SYNTAX_LOOP = null;
 
@@ -1727,7 +1727,6 @@ var SYNTAX_LOOP = null;
       builder.map = [];
       var allowFrontierUpdate = lineView != cm.display.externalMeasured && lineNo(line);
       insertLineContent(line, builder, getLineStyles(cm, line, allowFrontierUpdate));
-        BUILDER_BIG.push(builder);
       if (line.styleClasses) {
         if (line.styleClasses.bgClass) { builder.bgClass = joinClasses(line.styleClasses.bgClass, builder.bgClass || ""); }
         if (line.styleClasses.textClass) { builder.textClass = joinClasses(line.styleClasses.textClass, builder.textClass || ""); }
@@ -1887,13 +1886,10 @@ var SYNTAX_LOOP = null;
   // Outputs a number of spans to make up a line, taking highlighting
   // and marked text into account.
   function insertLineContent(line, builder, styles) {
-    // console.log(line);
     // style
     var spans = line.markedSpans, allText = line.text, at = 0;
     if (!spans) {
-      // console.log("not spans");
       for (var i$1 = 1; i$1 < styles.length; i$1 += 2) {
-        // console.log("build", builder);console.log("alltext", allText);  console.log("style", styles); 
         builder.addToken(builder, allText.slice(at, at = styles[i$1]), interpretTokenStyle(styles[i$1 + 1], builder.cm.options));
       }
       // console.log("done");
@@ -4169,6 +4165,7 @@ var SYNTAX_LOOP = null;
       lineN += lineView.size;
     }
     while (cur) { cur = rm(cur); }
+    BUILDER_BIG[cm.elem_id] = container;
   }
 
   function updateGutterSpace(display) {
@@ -9551,10 +9548,9 @@ var SYNTAX_LOOP = null;
 
   TextareaInput.prototype.needsContentAttribute = false;
 
-  function fromTextArea(textarea, options) {
+  function fromTextArea(textarea, options, elem_id) {
     options = options ? copyObj(options) : {};
     options.value = textarea.value;
-    // console.log("text area text", options.value);
     if (!options.tabindex && textarea.tabIndex) { options.tabindex = textarea.tabIndex; }
     if (!options.placeholder && textarea.placeholder) { options.placeholder = textarea.placeholder; }
     // Set autofocus to true if this textarea is focused, or if it has
@@ -9586,6 +9582,7 @@ var SYNTAX_LOOP = null;
     }
 
     options.finishInit = function(cm) {
+      cm.elem_id = elem_id;
       cm.save = save;
       cm.getTextArea = function() { return textarea; };
       cm.toTextArea = function() {

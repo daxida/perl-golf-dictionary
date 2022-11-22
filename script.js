@@ -1,4 +1,97 @@
 const QUERY = (() => {/*
+A .. "`"
+---
+char range list
+iii
+ccc
+print "@{['A' .. 'Z']}" 
+ooo
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+***
+${\map $A += $_, @A}
+---
+get the last element of a list expression
+iii
+1
+2
+3
+ccc
+print 2 * ${\map $A += $_, 1..$_}, $A = $/ for <>
+ooo
+2
+6
+12
+***
+"@{[$A + 3]}"
+---
+string interpolate an expression as a list
+iii
+1 2 3
+ccc
+@A = glob <>;
+print "@{[map $_ + 1, @A]}"
+ooo
+2 3 4
+***
+$A . $B
+---
+string concatenate $A and $B
+***
+eval "\$A =~ y/$a/$b/"
+---
+transliterate $A with variable input chars $a and output $b
+iii
+w
+d
+ccc
+$_ = "wow";
+$a = <>;
+$b = <>;
+eval "y/$a/$b/";
+print
+ooo
+dod
+***
+-($A < 0) + int $A
+---
+floor a positive / negative number
+***
+$_ | 0
+---
+floor a positive number
+***
+$_ + .5 | 0
+---
+round a positive number
+***
+sprintf "%.f", $_
+---
+round a positive / negative number
+***
+$_=$_%2?3*$_+1:$_/2|<>,$z++while$_-1
+---
+store number of values of the collatz sequence of <> into $z
+***
+$\ += $_ + shift@A for@B
+---
+zip sum of two lists @A and @B and store result in $\
+***
+@_
+---
+subroutine argument list
+***
+print
+---
+print
+***
+substr
+---
+substr
+***
+1 .. $n
+---
+range from 1 to $n inclusive
+***
 # ($`, $') = split $", <>;
 <> =~ $"
 ---

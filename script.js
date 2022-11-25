@@ -4,26 +4,26 @@ const READER = new XMLHttpRequest() || new ActiveXObject("MSXML2.XMLHTTP");
 let QUERY = null;
 let CODE_ARR = null;
 
-file_read("perl_query.txt");
+file_read("perl_query.pl");
 
 async function file_read(file) {
-    READER.open("get", file, true); 
-    READER.onreadystatechange = () => {
-      if (READER.readyState == 4) {
-        QUERY = READER.responseText; 
-      }
-    };
-    READER.send(null);
+ READER.open("get", file, true); 
+ READER.onreadystatechange = () => {
+   if (READER.readyState == 4) {
+     QUERY = READER.responseText; 
+   }
+ };
+ READER.send(null);
 }
 
 
 async function code_arr_text(code_arr) {
   let ind = 0;
-  return code_arr.map((x, i) => {
-    const [code, description, example_arr] = x;
+  return code_arr.map(x => {
+    const [i, code, description, example_arr] = x;
     let z = `
-    <table border="5">
-    <tr>
+<table id = "filter-${i}" class = "filter-aaa" border="5">
+<tr>
   <td style="width:60vh" class="code-x" id = "code-${ind}">${code}</td>
   <textarea class="code" id = "code-${ind}">${code}</textarea>
   <td style="width:35vh">${description}</td>
@@ -36,7 +36,7 @@ async function code_arr_text(code_arr) {
     ind += 1;
     let example_dropdown = ""
     if (typeof example_arr === "undefined") {
-      z = z.replace(`    <button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>`, "")
+      z = z.replace(`<button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>`, "")
     } else {
       example_dropdown = example_arr.map(e => {
         let stdin = "";
@@ -51,14 +51,17 @@ async function code_arr_text(code_arr) {
           [c, stdout] = e;
         }
         let n = `<tr class="tr-example">
-    <textarea class="code" id = "code-${ind}">${c}</textarea>${stdin}<td class="snippet code-x" id = "code-${ind}">${c}</td><td class="snippet">${stdout}</td>
-  </tr>`;
+  <textarea class="code" id = "code-${ind}">${c}</textarea>
+  ${stdin}
+  <td class="snippet code-x" id = "code-${ind}">${c}
+  </td><td class="snippet">${stdout}</td>
+</tr>`;
         ind += 1;
         return n;
       }).join("\n");
     }
 
-    z += `<table class="table-example dropdown ${i}">${example_dropdown}</table>`;
+    z += `<table id = "filter-${i}" class="table-example dropdown ${i}">${example_dropdown}</table>`;
 
     return z;
 
@@ -68,9 +71,9 @@ async function code_arr_text(code_arr) {
 async function code_mirror_rep() {
   // console.log([...document.getElementsByClassName("code")]);
   [...document.getElementsByClassName("code")].sort((a, b) => a.id.split("-")[1] - b.id.split("-")[1]).map(elem => {
-    console.log("eleme there", elem);
+    // console.log("eleme there", elem);
     let editor = CodeMirror.fromTextArea(elem, {}, elem.id);
-    console.log(editor.chicken);
+    // console.log(editor.chicken);
   })
 }
 
@@ -106,7 +109,7 @@ async function syntax_rep() {
 async function file_parse() {
   const QUERY_ARR = QUERY.split("\n***\n");
 // console.log(QUERY_ARR);
-  const CODE_ARR = QUERY_ARR.map(query => {
+  CODE_ARR = QUERY_ARR.map((query, ind) => {
     console.log(query);
     let [code, desc_pre] = query.split("\n---\n");
     let [desc, ...example_str_arr] = desc_pre.split("\niii\n");
@@ -117,10 +120,10 @@ async function file_parse() {
         return [stdin, code, stdout];
       }
     });
-    return example_arr.length == 0 ? [code, desc] :[code, desc, example_arr];
+    return example_arr.length == 0 ? [ind, code, desc] : [ind, code, desc, example_arr];
   });
 
-  console.log(CODE_ARR);
+  console.log("code arr ", CODE_ARR);
   main(CODE_ARR);
 }
 async function file_wait() {
@@ -154,16 +157,24 @@ $(document).ready(() => {
     }
     // console.log("HI");
     let query = $("#QUERY").val();
-    console.log("HI");
+    console.log("HI ", CODE_ARR);
 
+    // console.log($(".filter-aaa"));
 
-    main(CODE_ARR.filter(x => {
-      [code, description, example_arr] = x;
-
-      let raw_re = new RegExp(String.raw`${query}`);
+    $(".filter-aaa").map((_i, query_entry) => {
+      // console.log("entry ", query_entry.children[0].children[0].children[0].children[0]);
+      let re_raw = new RegExp(String.raw`${query}`);
       let re = new RegExp(query);
-      return re.test(code) || raw_re.test(code)
-        || re.test(description) || raw_re.test(description)
-    }));
+      let re_raw_arr = query.split(" ").map(q => new RegExp(String.raw`${q}`));
+      let re_arr = query.split(" ").map(q => new RegExp(q));
+      let query_check = query_entry.children[0].children[0];
+      let [code, description, _] = [...query_check.children].map(qe => qe.innerText);
+
+      if (re.test(code) || re_raw.test(code) || re.test(description) || re.test(description) || re_raw_arr.some(r => r.test(code) || r.test(description)) || re_arr.some(r => r.test(code) || r.test(description))) {
+        query_entry.style.display = "table";
+      } else {
+        query_entry.style.display = "none";
+      }
+    })
   });
 });

@@ -81,7 +81,7 @@ button {
 .cm-keyword {color: #f08;}
 .cm-atom {color: #219;}
 .cm-number {color: #1f4;}
-.cm-def {color: #00f;}
+.cm-def {color: #07f;}
 .cm-variable {color: #0fa;},
 .cm-punctuation,
 .cm-property,
@@ -91,7 +91,7 @@ button {
 .cm-comment {color: #a50;}
 .cm-string {color: #f11;}
 .cm-string-2 {color: #f50;}
-.cm-meta {color: #555;}
+.cm-meta {color: #999;}
 .cm-qualifier {color: #555;}
 .cm-builtin {color: #30a;}
 .cm-bracket {color: #997;}

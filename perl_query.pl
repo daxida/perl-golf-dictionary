@@ -1,10 +1,141 @@
+($% / 2) - ($% < 0) / 2
+---
+floor divide $% by 2 (must use $%)
+***
+$A >> $n 
+---
+floor divide positive number $A by 2 ** $n
+iii
+ooo
+$A = 5;
+print $A >> 1
+ccc
+2
+iii
+ooo
+$A = 20;
+$A >>= 2;
+print $A
+ccc
+5
+***
+sprintf "%0${L}d", $B
+---
+left pad $B string with $L length minimum
+***
+@A
+---
+length of @A in scalar context
+iii
+ccc
+@A = qw(a b c);
+$l = @A;
+print $l
+ooo
+3
+iii
+ccc
+@A = qw(a b c);
+print @A + 5
+ooo
+8
+iii
+ccc
+@A = qw(a b c);
+print ~~@A
+ooo
+3
+***
+and
+---
+low precendence logical and
+iii
+1
+2
+5
+6
+ccc
+$_ % 2 and $x += $_, $- += $x for <>;
+print $-
+ooo
+7
+***
+or
+---
+low precedence logical or
+iii
+1
+2
+5
+6
+ccc
+$_ % 2 or $x += $_, $- += $x for <>;
+print $-
+ooo
+10
+***
+$A =~ s/ *$//
+---
+trim trailing space from $A
+***
+v98.114.117.104
+---
+v string
+iii
+50
+ccc
+print 1e9.<>^v1
+ooo
+000000000050
+iii
+ccc
+print s00bruh0r x10for v10
+ooo
+bruh
+bruh
+bruh
+bruh
+bruh
+bruh
+bruh
+bruh
+bruh
+bruh
+***
+sub add {
+  my ($a, $b) = @_
+  $a + $b
+}
+
+$c = add 5, 3
+---
+function / subroutine
+***
+$a ? $b : $c
+---
+ternary operator
+iii
+1
+2
+0
+4
+0
+21
+0
+4
+ccc
+$_ ? $a : $b += ($z += $_) for <>; # lvalue ($_ ? $a : $b) += ($z += $_)
+print $a * $b
+ooo
+148
+***
 $_ = eval s!\B!*!gr while /../
 ---
 product of digits of $_ until it's less than 10
 ***
-s/(.)(.)/$2$1/gr
+$A =~ s/(.)(.)/$2$1/g
 ---
-swap every 2 chars
+swap every 2 chars of $Z
 iii
 badcfe
 ccc
@@ -147,13 +278,13 @@ dod
 ---
 floor a positive / negative number
 ***
-$_ | 0
+$A | 0
 ---
-floor a positive number
+floor a positive number $A
 ***
-$_ + .5 | 0
+$A + .5 | 0
 ---
-round a positive number
+round a positive number $A
 ***
 sprintf "%.f", $_
 ---
@@ -258,7 +389,7 @@ transpose $_ with \n seperated values and store in $T
 ***
 $a = 3;
 $b = 5;
-print+(<@ like chicken>)[$a <=> $b];
+print+(<i like chicken>)[$a <=> $b];
 ---
 3 way comparison with $ and $b
 less last, equal earliest, greater goldilocks (give me a better last one lol)
@@ -381,7 +512,7 @@ i like chicken
 and chicken likes me
 ccc
 $A = `dd`;
-print "["$A]"
+print "[$A]"
 ooo
 [i like chicken
 and chicken likes me]

@@ -46,15 +46,19 @@ async function code_arr_text(code_arr) {
         if (e.length == 3) {
           [stdin, c, stdout] = e;
           stdin = `<td class="snippet">${stdin}</td>`;
-        } else {
-          stdin = "";
+          stdout = `<td class="snippet">${stdout}</td>`
+        } else if (e.length == 2) {
+          // stdin = "";
           [c, stdout] = e;
+          stdout = `<td class="snippet">${stdout}</td>`
+        } else {
+          [c] = e;
         }
         let n = `<tr class="tr-example">
   <textarea class="code" id = "code-${ind}">${c}</textarea>
   ${stdin}
-  <td class="snippet code-x" id = "code-${ind}">${c}
-  </td><td class="snippet">${stdout}</td>
+  <td class="snippet code-x" id = "code-${ind}">${c}</td>
+  ${stdout}
 </tr>`;
         ind += 1;
         return n;
@@ -114,11 +118,23 @@ async function file_parse() {
     let [code, desc_pre] = query.split("\n---\n");
     let [desc, ...example_str_arr] = desc_pre.split("\niii\n");
     let example_arr = example_str_arr.map(example_str => {let [stdin, code, stdout] = example_str.split(/\n?(?:ccc|ooo)\n/g); 
-      if (stdin === "") {
-        return [code, stdout];
-      } else {
-        return [stdin, code, stdout];
+
+      console.log("stdout", stdout);
+      let arr = [];
+      if (stdin !== "") {
+        arr.push(stdin);
       }
+
+      arr.push(code);
+      
+      if (typeof stdout !== "undefined") {
+        arr.push(stdout);
+      }
+      //   return [code, stdout];
+      // } else {
+      //   return [stdin, code, stdout];
+      // }
+      return arr;
     });
     return example_arr.length == 0 ? [ind, code, desc] : [ind, code, desc, example_arr];
   });

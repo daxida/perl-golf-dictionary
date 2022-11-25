@@ -1,3 +1,397 @@
+until
+---
+while loop until condition is false
+iii
+ccc
+$n = 32;
+# $- += $n * 3, $n /= 2 while $n >= 5;
+$- += $n * 3, $n /= 2 until $n < 5; 
+print $-
+ooo
+168
+***
+while
+---
+while loop
+iii
+ccc
+$n = 32;
+while ($n > 5) {
+  $- += $n * 3;
+  $n /= 2 
+}
+print $-
+ooo
+168
+iii
+ccc
+$n = 32;
+$- += $n * 3, $n /= 2 while $n > 5; # one line while
+print $-
+ooo
+168
+***
+sprintf "%.2f", $N + .0049
+---
+ceil $N to 2 decimal places
+***
+sprintf "%.2f", $N - .0049
+---
+floor $N to 2 decimal places
+***
+sprintf "%.2f", $N
+---
+round $N to 2 decimal places
+***
+--$|
+---
+flip flop expression
+iii
+1
+2
+3
+ccc
+--$| ? $- += $_ : print $-, $/ for <>
+ooo
+2
+***
+${+uc}
+---
+evaulate inner function on $_ rather than bareword
+iii
+ccc
+$_ = "neat";
+${+uc} = $_;
+print $NEAT
+ooo
+neat
+***
+use Data::Dumper;
+print Dumper
+---
+debug print
+iii
+ccc
+use Data::Dumper;
+
+@A = qw(a b c);
+print Dumper @A
+ooo
+$VAR1 = 'a';
+$VAR2 = 'b';
+$VAR3 = 'c';
+iii
+ccc
+use Data::Dumper;
+
+@A = qw(a b c);
+print Dumper \@A # array ref
+ooo
+$VAR1 = [
+          'a',
+          'b',
+          'c'
+        ];
+***
+print STDERR
+---
+print text to stderr
+iii
+ccc
+@A = qw(1 2 3);
+print STDERR "hi", @A
+***
+print + nice, 3
+---
+use + to print bareword instead of trying to print at filehandle (must have something after)
+***
+reverse @A 
+---
+reverse @A as a list
+***
+~~ reverse $S
+---
+reverse $S as a scalar
+iii
+ccc
+$S = "fall";
+print ~~ reverse $S
+ooo
+llaf
+iii
+ccc
+$S = "fall";
+print $S . reverse $S # dont need inchworm if you cast to scalar in other ways
+ooo
+fallllaf
+***
+-+- $S
+---
+convert $S to a number (high precedence)
+iii
+ccc
+print -+- "5bruh" x 5
+ooo
+55555
+***
+print + (1 + 2), 3
+---
+decrease function precedence with +
+iii
+ccc
+$a = "cool";
+$b = "beans";
+print substr + ($a .= "a$b"), 3
+ooo
+labeans
+***
+$S + 0
+---
+convert $S to a number
+iii
+ccc
+print "34" + 0
+ooo
+34
+iii
+ccc
+print "   34bruh" + 0
+ooo
+34
+iii
+ccc
+print " -34.5bruh" + 0
+ooo
+-34.5
+iii
+ccc
+print " -.5bruh" + 0
+ooo
+-0.5
+iii
+ccc
+print "bruh" + 0
+ooo
+0
+iii
+ccc
+print "-    5bruh" + 0
+ooo
+0
+***
+(1 x $N) !~ /^1?$|^(11+?)\1+$/
+---
+abigails regex: check if $N is prime
+***
+2 == grep $' % $_ < 1, $N =~ // .. $N
+---
+check if $N is prime
+iii
+ccc
+print join $/, grep {2 == grep $' % $_ < 1, // .. $_} 1..10
+ooo
+2
+3
+5
+7
+***
+#!perl -p
+---
+printing loop flag (shebang must be on first line)
+iii
+ccc
+# equivalent code
+while ($_ = <>) {
+CODE
+; # semicolon significant
+print 
+}
+iii
+ccHhiICckKEeNn
+wwwwow
+ccc
+#!perl -p
+s/(.)\1+/length($&) . $1/eg
+ooo
+2cHhiICckKEeNn
+4wow
+iii
+ccc
+#!perl -p
+@; = qw(1 2 3);
+# remember that semicolon?
+$_ = @
+ooo
+3
+iii
+aa bruh
+bruhz
+ccc
+#!perl -p
+# includes newline and no re flags so very niche
+s;bruh;wow
+ooo
+aa wow
+
+wow 
+z
+iii
+chicken
+finger
+ccc
+#!perl -p
+# ignores extra sub so bit more useful
+y;chi;ihc
+ooo
+ihciken
+fcnger
+---
+3
+***
+split
+---
+split string on a delimiter (usually if glob doesn't work)
+iii
+a b c
+ooo
+print join $/, split $", <>
+ccc
+a
+b
+c
+iii
+a b c
+ccc
+$_ = <>;
+print join $/, split # default " " and $_
+ooo
+a
+b
+c
+***
+$C ^ $"
+---
+swap case of character $C (char must be alphabetic)
+iii
+abVcDS
+ccc
+print $_ ^ $" for <> =~ /./g
+ooo
+ABvCds
+***
+pack "H*", $A
+---
+convert a hex string $A into regular string
+iii
+ccc
+print pack "H*", "616263"
+ooo
+abc
+***
+unpack "%C*", $A
+---
+sum of ord of each char in $A
+***
+unpack "%B*", $A
+---
+number of 1 in binary representation of string $A
+***
+unpack "(A$N)*", $A
+---
+split string $A into chunks of $N
+iii
+ccc
+$_ = "bruh";
+print join $/, unpack "(A2)*" # default last arg is $_
+ooo
+br
+uh
+***
+for
+---
+for loop
+iii
+ccc
+for ($i = 0; i < 5; i++) {
+  print $i, $/
+}
+ooo
+0
+1
+2
+3
+4
+iii
+ccc
+for (0..4) {
+  print $_, $/ # $_ is default for loop var
+}
+ooo
+0
+1
+2
+3
+4
+iii
+ccc
+print $_, $/ for 0..4 # one line for
+ooo
+0
+1
+2
+3
+4
+***
+grep {
+  //;
+  grep ($' % $_ < 1, 50..$') % 2
+} @A
+---
+short nested grep
+***
+//, map print $' * $_, @A for 1..5
+---
+short nested for loop
+***
+map {
+  //; # save outer $_ to $' (post match)
+  print $' + $_, $/ for 1..5
+} @A
+---
+short nested map
+***
+map
+---
+apply function to each value of a list
+iii
+ccc
+@A = (1, 2, 3);
+@A = map {$_ * 2 + 1} @A # $_ is default map var
+print join $/, @A
+ooo
+3
+5
+7
+iii
+ccc
+@A = (1, 2, 3);
+@A = map $_ * 2 + 1, @A # comma variation (only use with one statement)
+print join $/, @A
+ooo
+3
+5
+7
+***
+eval $N =~ s/\B/+/gr
+---
+digit sum of $N
+iii
+ccc
+$_ = 123;
+print eval s/\B/+/gr
+ooo
+6
+***
 ($% / 2) - ($% < 0) / 2
 ---
 floor divide $% by 2 (must use $%)
@@ -23,13 +417,19 @@ sprintf "%0${L}d", $B
 ---
 left pad $B string with $L length minimum
 ***
-@A
+~~@A
 ---
-length of @A in scalar context
+length of @A
 iii
 ccc
 @A = qw(a b c);
-$l = @A;
+print ~~@A
+ooo
+3
+iii
+ccc
+@A = qw(a b c);
+$l = @A; # dont need inchworm if you cast to scalar in other ways
 print $l
 ooo
 3
@@ -39,12 +439,6 @@ ccc
 print @A + 5
 ooo
 8
-iii
-ccc
-@A = qw(a b c);
-print ~~@A
-ooo
-3
 ***
 and
 ---
@@ -301,14 +695,55 @@ zip sum of two lists @A and @B and store result in $\
 @_
 ---
 subroutine argument list
+iii
+ccc
+sub F {
+  my ($a, $b) = @_; # "my" keyword denotes local var
+  $a < 1 and return $b;
+
+  F int $a / 2, $b * 2
+}
+
+print F 5, 2;
+ooo
+16
 ***
 print
 ---
-print
+print something with arguments delimited by $, and ending with $\
+iii
+ccc
+@A = qw(1 2 3);
+$, = "+";
+print @A
+ooo
+1+2+3
+iii
+ccc
+print "bruh", "nice"
+ooo
+bruhnice
+iii
+ccc
+$\ = "wow";
+$, = "chicken";
+print 3, 5
+ooo
+3chicken5wow
+ccc
 ***
-substr
+substr $s, $a, $b
 ---
-substr
+substring of length $b of string $s starting from index $a
+iii
+ccc
+print substr "abcdefgasdfsdf", 6, 2
+ooo
+iii
+ccc
+print substr "abcdefgasdfsdf", 6, -2 # up to the -2 index
+ooo
+gasdfs
 ***
 1 .. $n
 ---
@@ -326,7 +761,13 @@ split $/ seperated all of input into $` and $'
 ***
 vec
 ---
-vec
+treat string as bitstring
+iii
+ccc
+$a = "abc";
+print vec $a, 0, 8; # 8 bits offset of 0 chunks of 8 bits kinda like ord(($a =~ /./g)[0]) in this case
+ooo
+97
 ***
 $A x $B
 ---
@@ -334,15 +775,39 @@ string multiplication of $A by $B
 ***
 sqrt
 ---
-sqrt
+low precedence square root
+iii
+ccc
+$x = 256;
+print sqrt $x ** .5
+ooo
 ***
 oct
 ---
-oct
+convert binary (base 2) or octal (base 8) string to decimal
+iii
+ccc
+$B = "1010";
+print oct "b$B"
+ooo
+10
+iii
+ccc
+$B = "10";
+print oct $B
+ooo
+8
 ***
 hex
 ---
-hex
+convert hexadecimal (base 16) string to decimal
+iii
+ccc
+$B = "10";
+print oct "b$B"
+ooo
+16
+ccc
 ***
 printf
 ---
@@ -429,7 +894,7 @@ filter a list by predicate
 iii
 1 2 3 4 5
 ccc
-print join $/, grep {$_ % 2} glob <>
+print join $/, grep {$_ % 2} glob <> # $_ is default grep var
 ooo
 1
 3
@@ -540,12 +1005,12 @@ print the factorial of $n as a bigint
 $L = @A = qw(a b c);
 sub c{c($_,@_)for"@_"+1..$L;push@C,"@{[map$A[$_-1],@_]}"x(@_<=$L)}c
 ---
-get combinations of @A from length 1 to length arr and store into @C
+get combinations of @A from length 1 to length $L of arr and store into @C
 ***
 $L = @A = qw(a b c);
 @P = map"@{[map$A[$_],/./g]}"x/^[0-$#A]{0,$L}$/,0..$$
 ---
-get all permutations of @A from len 0 to len arr and store into @P
+get all permutations of @A from len 0 to length $L of arr and store into @P
 ***
 /./g
 ---

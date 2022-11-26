@@ -1,3 +1,823 @@
+~~<{1,2}{_}{1,2}>
+---
+glob iterator
+iii
+ccc
+@A = (1,2);
+print "chicken" . <{1,23}{_}{1,5}>, $/ for @A
+ooo
+chicken1_1
+chicken1_5
+***
+unpack "x$N", $S
+---
+skip $N characters from string $S
+iii
+ccc
+print join $/, unpack "C2x2C", "chicken"
+ooo
+99
+104
+107
+iii
+ccc
+print join $/, map chr, unpack "C2x2C", "chicken"
+ooo
+c
+h
+k
+***
+sort {length($a) - length($b) || $b cmp $a} @A
+---
+sort list @A by multiple predicate (left to right)
+***
+sort {@$a[0] - @$b[0]} @A
+---
+sort list of list references @A by the first element
+iii
+ccc
+use Data::Dumper;
+@A = ([1,43,3], [5,3,2], [123,12,4]);
+print Dumper sort {@$a[0] - @$b[0]} @A
+ooo
+$VAR1 = [
+          1,
+          43,
+          3
+        ];
+$VAR2 = [
+          5,
+          3,
+          2
+        ];
+$VAR3 = [
+          123,
+          12,
+          4
+        ];
+***
+<a b   c   >
+---
+qw but with glob (can interpolate in list context)
+iii
+ccc
+$i = 3;
+print for <$i 3>
+ooo
+33
+iii
+ccc
+@A = (" nice", "   chic ken", "br o");
+print "[$_]" for <@A>
+ooo
+[nice][chic][ken][br][o]
+iii
+ccc
+@A = (" nice", "   chic ken", "br o");
+print <@A> . $/;
+ooo
+nice
+iii
+ccc
+print "[$_]" for <{1,2}{1}>
+ooo
+[11][21]
+***
+qw(  a   b  c)
+---
+quote words: split raw string on white space /\s*/
+iii
+ccc
+$c = "bruh";
+print join $/, qw(a $c)
+ooo
+a
+$c
+iii
+ccc
+print join $/, map length, qw(the chicken be with you)
+ooo
+3
+7
+2
+4
+3
+***
+pack "W*", @A
+---
+convert ascii code list @A to string
+iii
+ccc
+@A = (97, 98, 99);
+print pack "C*", @A 
+ooo
+abc
+***
+eval join "+", $S =~ /\d+/g
+---
+sum of the numbers in string $S
+iii
+31 1
+1 2 2
+ccc
+print eval(join "+", /\d+/g), $/ for <>
+ooo
+32
+5
+***
+[] + 0
+---
+big number when cast to number
+---
+iii
+ccc
+print [] + 0 # different each time
+ooo
+94760256648160
+iii
+ccc
+print 1 / []
+ooo
+1.06520656121523e-14
+iii
+ccc
+print [] . "bruh" # doesn't work on string
+ooo
+ARRAY(0x5643e6cd13e0)bruh
+***
+@{$S}
+---
+list variable variable
+iii
+ccc
+@0 = (1,2,3);
+print @{map 1, 1..0} # scalar of empty map == 0
+ooo
+123
+iii
+a
+c
+b
+ccc
+chomp, @$_ = $_ x ++$i for <>;
+print @$_ for a..z
+ooo
+abbbcc
+iii
+[1,2,3]
+ccc
+print join $/, @{eval <>}
+ooo
+1
+2
+3
+***
+$#{$S}
+---
+dollactothorp variable variable
+iii
+ccc
+$A = "wow";
+@wow = (1,2,3);
+print $#$A # can omit the brackets with only one statement
+ooo
+2
+iii
+ccc
+@wow = (1,2,3);
+print $#{"w" . "o" . "w"}
+ooo
+2
+***
+$N > 1 && 1 == grep $' % $_ < 1, $N =~ // .. sqrt $N
+# $_>1&&1==grep$'%$_<1,//..sqrt
+# 1==grep$'%$_<1,//..sqrt (includes 1)
+---
+check if $N is prime O(sqrt N)
+***
+$A eq $B
+---
+check if string $A equals string $B
+iii
+ccc
+$A = "32";
+$B = "32\n";
+print $A eq $B ? "yes" : "no"
+ooo
+no
+***
+$A ne $B
+---
+check if string $A does not equal string $B
+iii
+ccc
+$A = "32";
+$B = "32\n";
+print $A ne $B ? "yes" : "no"
+ooo
+yes
+***
+$A cmp $B
+---
+compare string $A to string $B by ascii codes (less -1, equal 0, greater 1)
+iii
+ccc
+$A = "32";
+$B = "32\n";
+print $A cmp $B
+ooo
+-1
+***
+unpack "%B*", pack I, $N
+---
+count amount of ones in binary representation of $N (pop count)
+***
+getc
+---
+get a single char from stdin
+iii
+abc
+ccc
+print $_ . "e" while $_ = getc
+ooo
+aebece
+---
+++$_ for ($-) x 9
+---
+local value of $_ that persists in each loop iteration (must have lvalue in the singleton list)
+iii
+ccc
+$_ = "chicken";
+print ++$_, $/ for ($-) x 5;
+print
+ooo
+1
+2
+3
+4
+5
+chicken
+iii
+5
+ccc
+print ++$_ for (<>) x 5
+ooo
+6
+7
+8
+9
+10
+iii
+ccc
+print $_ .= "e", $/ for ($x) x 5
+ooo
+e
+ee
+eee
+eeee
+eeeee
+***
+int $N
+---
+cast $N to integer
+iii
+1
+2
+3
+ccc
+print int for <>
+ooo
+123
+***
+printf @A
+---
+print the first element of @A
+iii
+12
+34
+ccc
+printf $x, /.*/, $x .= $& for <>
+ooo
+121234
+***
+$"
+---
+" "
+***
+$/
+---
+"\n"
+***
+$-
+---
+0
+***
+$=
+---
+60
+***
+$^T
+---
+big number (seconds since epoch on program run)
+***
+++$N
+---
+pre increment $N
+***
+$N++
+---
+post increment $N
+$N--
+---
+post decrement $N
+***
+--$N
+---
+pre decrement $N
+***
+}{
+---
+eskimo greeting: end block for -p -n -a -F
+iii
+ccc
+#!perl -p
+$code_a }{ $code_b
+==============================
+# equivalent to
+while ($_ = <>) {
+  $code_a
+}{
+  $code_b
+;; # double semicolon on next line significant on codingame >:(
+  print
+}
+iii
+5
+10
+ccc
+#!perl -p
+$\ += $_ * 2 }{
+ooo
+30
+***
+length $S
+---
+length of scalar $S
+iii
+ccc
+$S = "chicken";
+print length $S
+ooo
+7
+iii
+ccc
+$_ = "chicken";
+print length
+ooo
+***
+$_
+---
+default var
+***
+$S =~ m//
+---
+match $S on regex
+iii
+ccc
+$S = "my Man";
+print $S =~ /M/ # can omit m if you use / as delim
+ooo
+1
+iii
+ccc
+$_ = "my Man";
+print /M/ # can omit =~ if you use default var $_ 
+ooo
+1
+***
+"${S}"
+---
+iterpolate $S with alphanumeric char after
+iii
+ccc
+$S = 3;
+print "${S}bruh"
+ooo
+3bruh
+iii
+ccc
+$% = $^ = $, = 3;
+print "$%bruh $^bruh $,bruh" # not needed for symbol vars
+ooo
+3bruh 3bruh 3bruh
+***
+$S =~ /(.)(.)(?{print "$1 $2\n"})^/
+---
+iterate over each consecutive char pair
+***
+chop $S
+---
+remove last char from $S and return it
+iii
+ccc
+$S = "bruh\n";
+print "[", chop $S, "]"
+ooo
+[
+]
+iii
+bruh
+ccc
+$_ = <>;
+print "$z$_
+" while $z = chop
+ooo
+hbru
+ubr
+rb
+b
+***
+@A[@B]
+---
+@A at all indices of @B
+***
+$H{$K}
+---
+%H at key $K (return the value value)
+***
+$A[$N]
+---
+@A at index $N (dont use @A[$N] unless you know what you are doing)
+***
+[@A] ~~ [@B]
+---
+check if @A smart matches with @B
+***
+$N ~~ @A
+---
+check if $N smart matches the last element of @A
+***
+$N ~~ [@A]
+---
+check if $N smart matches any item in @A
+***
+$N / .0174532925199432957692369
+# $N * 180 / 3.14159
+---
+convert from radians to degrees (feel free to chop some digits)
+***
+use Math::Trig;
+rad2deg($N)
+---
+convert $N from radians to degrees
+***
+$N * .0174532925199432957692369
+# $N * 3.14159 / 180
+---
+convert $N from degrees to radians (feel free to chop some digits)
+***
+use Math::Trig;
+deg2rad($N)
+---
+convert $N from degrees to radians
+***
+sin ($N) / cos ($N)
+---
+tan of $N (in radians)
+***
+cos ($N)
+---
+cos of $N (in radians)
+***
+sin $N
+---
+sin of $N (in radians)
+***
+log $N
+---
+log base e of $N
+***
+log($N) / log($B)
+---
+log base $B of $N
+***
+$S =~ / \S+/
+---
+split $S into 3 numbers $` $& $'
+iii
+1 2 3
+4 5 6
+ccc
+/ \S+/, print $` * $& + $', $/ for <>
+ooo
+5
+26
+***
+"\u\L$S\E"
+---
+uppercase first char of $S, lowercase rest
+iii
+ccc
+$s = "cHickeN";
+print "\u\L$S" # can omit \E if nothing else
+ooo
+Chicken
+iii
+ccc
+$_ = "cHickeN-finger and toast";
+print s/\w+/\u\L$&/gr;
+ooo
+Chicken-Finger And Toast
+***
+"\U$S\E"
+---
+uppercase string $S
+iii
+ccc
+$S = "wow";
+print "\U$S" # can omit \E if nothing else
+ooo
+WOW
+***
+"\L$S\E"
+---
+lowercase string $S
+iii
+ccc
+$S = "WOW";
+print "\L$S" # can omit \E if nothing else
+ooo
+wow
+***
+"\l$S"
+---
+lowercase first character of $S
+***
+"\u$S"
+---
+uppercase first character of $S
+***
+lc $S
+---
+lowercase string $S
+***
+uc $S
+---
+uppercase string $S
+***
+/\PL/
+---
+match non alphabetic character
+***
+/\pL/
+---
+match alphabetic character
+***
+sprintf "%0$^d", $S
+---
+format $S with variable $^ length padding
+iii
+ccc
+$a = 3;
+printf "%0${a}d", 50
+ooo
+050
+iii
+ccc
+$^ = 3;
+printf "%0$^d", 50
+ooo
+3
+---
+%!
+---
+hash map with a lot of items
+iii
+1
+2
+5
+ccc
+$s += <> for %!;
+print $s
+ooo
+8
+***
+$s =~ / /
+---
+store prematch into $` and postmatch into $'
+iii
+1 632
+2 5
+ccc
+/ /, print $` * ($' + 1), $/ for <>
+ooo
+633
+12
+***
+split $", `dd`
+---
+split all input on $"
+***
+glob `dd`
+---
+glob all input
+***
+split $/, `dd`
+---
+split all input on $/
+iii
+a
+b
+c
+ccc
+print join "+", split $/, `dd`
+ooo
+a+b+c
+***
+chomp(@A = <>)
+---
+split <> on $/ into @A and remove delimiter from the end of each string
+iii
+1
+2
+3
+ccc
+chomp(@A = <>);
+print join "+", @A
+ooo
+1+2+3
+***
+$s =~ /.*/
+---
+store $s without newline into $&
+iii
+a
+b
+c
+ccc
+/.*/, print $& for <>
+ooo
+abc
+iii
+54 fish
+32 chicken
+ccc
+/ (.*)/, $H{$1} = $` for <>;
+print join $/, sort {$H{$a} - $H{$b}} keys %H
+ooo
+chicken
+fish
+***
+\%H{@A}
+---
+store unique keys into %H
+iii
+ccc
+@A = (1, 1, 4, 5);
+\%H{@A};
+print ~~%H
+ooo
+3
+***
+`tr`
+---
+transliterate / translate all input
+***
+`tac`
+---
+reverse all lines in input
+***
+`rev`
+---
+reverse all input
+***
+`sort`
+---
+bash sort all lines in input
+***
+`factor`
+---
+prime factorization each input line
+***
+${\sort {$b-$a} @A}
+---
+min of list @A
+***
+\@B[@A]
+---
+store max value of list @A into $#B (no negative) (do not modify $#B or @B after)
+iii
+ccc
+@A = (1, 2, 32342);
+\@B[@A];
+print $#B
+ooo
+32342
+***
+[]
+---
+list reference (nested list)
+iii
+ccc
+$A = [1];
+print join $/, @$A
+ooo
+1
+iii
+ccc
+$A = [[1, 4], 3];
+print join $/, @{@$A[0]}
+ooo
+1
+4
+iii
+5
+4
+ccc
+$H{$_} = [$_ + 1, $_ - 1] for <>;
+print join $/, @{$H{5}}
+ooo
+6
+4
+***
+@{$A}
+---
+convert a list reference $A to a list
+iii
+ccc
+$A = [1];
+print join $/, @$A # can omit {} if just var
+ooo
+1
+iii
+ccc
+$A = [[1, 4], 3];
+print join $/, @{@$A[0]}
+ooo
+1
+4
+iii
+5
+4
+ccc
+$H{$_} = [$_ + 1, $_ - 1] for <>;
+print join $/, @{$H{5}}
+ooo
+6
+4
+***
+$$A
+---
+double variable $$A
+iii
+ccc
+$A = "chicken";
+$$A = 3;
+print $chicken
+ooo
+3
+iii
+ccc
+$A = "chick";
+${$A . "en"} = 3;
+print $chicken
+ooo
+3
+iii
+a
+b
+d
+ccc
+++$$_ for split $/, `dd`;
+print $$_ + 0, $/ for a..d
+ooo
+1
+1
+0
+1
+***
+"@+" + 0
+---
+get the index + length of the match
+iii
+ccc
+$_ = "wow";
+/ow/;
+print "@+" + 0
+ooo
+3
+***
+"@-" + 0
+---
+get the index of the match
+iii
+ccc
+$_ = "wow";
+/ow/;
+print "@-" + 0
+ooo
+1
+***
 until
 ---
 while loop until condition is false
@@ -184,6 +1004,7 @@ ooo
 abigails regex: check if $N is prime
 ***
 2 == grep $' % $_ < 1, $N =~ // .. $N
+# 2==grep$'%$_<1,//..$_
 ---
 check if $N is prime
 iii
@@ -195,6 +1016,75 @@ ooo
 5
 7
 ***
+#!perl -l
+---
+set $\ to "\n" and chomp every input when paired with -p
+iii
+ccc
+#!perl -l
+print "hi";
+print "bruh"
+ooo
+hi
+bruh
+iii
+they
+are
+magically
+delicious
+ccc
+#!perl -lp
+$_ = "[$_]"
+ooo
+[they]
+[are]
+[magically]
+[delicious]
+***
+#!perl -00
+---
+paragraph mode (sets $/ to '' and reads input delimited by '\n\n')
+iii
+a
+chicken
+
+b
+ccc
+#!perl -00
+use Data::Dumper;
+print Dumper <>;
+print Dumper <>;
+ooo
+$VAR1 = '5
+4weraer
+
+';
+$VAR2 = 'rwerawer
+awe';
+***
+#!perl -0
+---
+0 flag (sets $/ to '' or chr of octal number)
+iii
+a
+b
+c
+ccc
+#!perl -0
+print '[', <>, ']'
+ooo
+[a
+b
+c]
+iii
+32978349234 5 3
+ccc
+#!perl -p040
+# -p flag and 040 => " "
+$_ = <> * <>
+ooo
+15
+***
 #!perl -p
 ---
 printing loop flag (shebang must be on first line)
@@ -203,7 +1093,7 @@ ccc
 # equivalent code
 while ($_ = <>) {
 CODE
-; # semicolon significant
+;; # double semicolon on next line significant on codingame >:(
 print 
 }
 iii
@@ -228,7 +1118,7 @@ aa bruh
 bruhz
 ccc
 #!perl -p
-# includes newline and no re flags so very niche
+# codingame inserts newline at and no re flags so very niche
 s;bruh;wow
 ooo
 aa wow
@@ -263,7 +1153,7 @@ iii
 a b c
 ccc
 $_ = <>;
-print join $/, split # default " " and $_
+print join $/, split # with no arguments works like glob but works with special chars
 ooo
 a
 b
@@ -312,7 +1202,7 @@ for
 for loop
 iii
 ccc
-for ($i = 0; i < 5; i++) {
+for ($i = 0; $i < 5; $i++) {
   print $i, $/
 }
 ooo
@@ -596,7 +1486,7 @@ ooo
 ***
 $#A
 ---
-print the length of the @A - 1 (last index of @A)
+dollactothorp: print the length of the @A - 1 (last index of @A)
 iii
 a b c d
 ccc
@@ -605,15 +1495,23 @@ print $#F
 ooo
 3
 ***
-<@A>
+~~<@A>
 ---
-first item of list @A (need to cast to scalar)
+first item of list @A (only on first call, kind of like iterator)
 iii
 ccc
 @A = qw(a b c);
 print <@A> . $/
 ooo
 a
+iii
+ccc
+@A = qw(a b c);
+print <@A> . $/ for @A
+ooo
+a
+b
+c
 ***
 A .. "`"
 ---
@@ -640,7 +1538,7 @@ ooo
 ***
 "@{[$A + 3]}"
 ---
-string interpolate an expression as a list
+baby cart: string interpolate an expression as a list
 iii
 1 2 3
 ccc
@@ -655,7 +1553,7 @@ string concatenate $A and $B
 ***
 eval "\$A =~ y/$a/$b/"
 ---
-transliterate $A with variable input chars $a and output $b
+transliterate / translate $A with variable input chars $a and output $b
 iii
 w
 d
@@ -688,7 +1586,7 @@ $_=$_%2?3*$_+1:$_/2|<>,$z++while$_-1
 ---
 store number of values of the collatz sequence of <> into $z
 ***
-$\ += $_ + shift@A for@B
+$\ += $_ + <@B> for @A
 ---
 zip sum of two lists @A and @B and store result in $\
 ***
@@ -854,7 +1752,7 @@ transpose $_ with \n seperated values and store in $T
 ***
 $a = 3;
 $b = 5;
-print+(<i like chicken>)[$a <=> $b];
+print+(< i like chicken>)[$a <=> $b];
 ---
 3 way comparison with $ and $b
 less last, equal earliest, greater goldilocks (give me a better last one lol)
@@ -915,6 +1813,11 @@ ooo
 sort
 ---
 sort a list by string comparison by default or custom sort
+iii
+ccc
+@A = (12, 21, 1, 31, 11111111111, 32);
+print join $/, sort {$b cmp $a} @A # explicit reverse string sort
+ooo
 iii
 ccc
 print sort "hello" =~ /./g
@@ -994,7 +1897,7 @@ and chicken l][ikes me]
 ***
 glob <>
 ---
-split line of input on \S+ and remove empty values (won't work if any `}{*` present)
+split line of input on \S+ and remove empty values (won't work if any `}{*~` present)
 ***
 use Math'BigInt bgcd;
 $n = <>;

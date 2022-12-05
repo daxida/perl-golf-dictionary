@@ -1,3 +1,729 @@
+$H{print "bruh"; 3}
+---
+evaluate code block and index hash %H
+***
+$n && ${print "chicken $_\n" for 1..5}
+---
+evaluate code block if condition $n is true
+iii
+4
+1
+3
+6
+7
+ccc
+<>;
+//, $' % 2 && ${($x += $') <<= 2 for 1..5}, print $x, $/ for <>
+ooo
+1364
+1400828
+1400828
+1434457420
+***
+$n = $n * 2 + $_ for $S =~ /./g
+---
+convert base 2 string $S to decimal (store in $n)
+***
+-$_ for -50..-30
+---
+range 30 to 50 in reverse order
+iii
+ooo
+ccc
+***
+/(.)(?1)/
+---
+inject the nth group in a regex
+iii
+ccc
+$_ = "1a3927e"
+print /([aeiou])\d+(?1)/ ? $& : invalid
+ooo
+a3927e
+***
+print $_ + 3for <>
+---
+short single line input with $_ if there is no whitespace before the for 
+iii
+5
+5
+ccc
+$_=<>;print$_+3;
+print$_+3for<>
+ooo
+88
+***
+/(??{ 1 + 1 })/
+---
+postponed match: match a perl expression with $&, $1, etc
+iii
+ccc
+$_ = "2123";
+print /\d(??{ $& + 1 })/ ? $& : invalid
+ooo
+12
+iii
+ccc
+$_ = "aeb";
+$r = "[aeiou]";
+print /.(??{$a = $&; $r . ++$a})/ ? "good" : "bad"
+ooo
+good
+***
+map {$i = 0; [map $A[$_]->[$i], 0..$#A]} 0..$#{$A[0]}
+# map{//;[map$A[$_]->[$'],0..$#A]}0..$#{$A[0]}
+---
+transpose list @A of list references
+***
+qq{}
+---
+double quote string with any delimiter
+q{}
+---
+raw string with any delimiter
+***
+'chicken $S'
+---
+raw string `chicken $S`
+***
+"@_"
+---
+first argument in subroutine (must be number)
+***
+&F
+---
+call function &F without any arguments
+iii
+10
+1
+ccc
+sub F {oct b . <>}
+&F + F # dont need brackets
+ooo
+3
+iii
+BRUH
+101
+ccc
+sub F {oct b . <>}
+print <> =~ /B/ ? &F : 3 + F # avoid ternary bareword
+ooo
+5
+***
+$S++
+---
+post increment string $S
+***
+++$S
+---
+pre increment string $S
+iii
+ccc
+$a = "brug";
+print ++$a
+ooo
+bruh
+iii
+ccc
+$a = "z";
+print ++$a
+ooo
+aa
+iii
+ccc
+$a = "zZ";
+print ++$a
+ooo
+aaA
+***
+$S =~ /(.)\1/
+---
+2 of the same character beside each other in $S
+***
+/\PL/
+---
+match lowercase character
+***
+/\s/
+---
+match whitespace character
+***
+/\S/
+---
+match non whitespace character
+***
+binmode$~,utf8;
+binmode STDIN,utf8;
+---
+utf8 stuff
+iii
+🦋❤️
+ccc
+binmode$~,utf8;
+binmode STDIN,utf8;
+
+$S = <>;
+@S = $S =~ /./g;
+print $S[0]
+ooo
+🦋
+iii
+🦋❤️
+ccc
+binmode STDIN,utf8;
+
+$S = <>;
+@S = $S =~ /./g;
+
+eval 'print $S[0]' # -X / eval on codingame only
+ooo
+🦋
+***
+do {}
+---
+do block (advanced ternary)
+iii
+1
+4pr
+print
+3int
+6rint
+ccc
+# if else is too long
+/pri/ ? do {print int, $/ for @A} : push @A, $_ for <>
+ooo
+1
+4
+1
+4
+3
+6
+***
+$A[@A]
+---
+push to list @A and return
+iii
+5
+3
+12
+3
+3
+4
+ccc
+print $A[@A] = grep($_ == $A[-1], @A), $/ for <>
+ooo
+0
+1
+1
+2
+1
+3
+***
+use bignum
+---
+disables scientific notation and you can use decimals too (very slow)
+***
+use bigint
+---
+like `use integer` but disables scientific notation (slow)
+***
+use integer
+---
+makes everything an integer and makes bitwise operators work on negative numbers
+***
+"$N"
+---
+use the value of $N before modification in the same expression
+iii
+ccc
+$N = 3;
+print "$N" + ($N += 3)
+ooo
+9
+***
+$a ? chicken : onion
+---
+ternary with bareword branches
+iii
+3-5
+2-
+4
+ccc
+print /^\d-\d/ ? chicken : onion, $/ for <>
+ooo
+chicken
+onion
+onion
+***
+use 5.01
+---
+say support
+iii
+ccc
+use 5.01;
+say "bruh";
+say "bruh";
+ooo
+bruh
+bruh
+***
+<"@A {1,2,3}\n">
+---
+glob with string interpolation
+iii
+ccc
+@A = (1, 5);
+print <"@A {1,2,3} {1,2,3}\n">
+ooo
+1 5 1 1
+1 5 1 2
+1 5 1 3
+1 5 2 1
+1 5 2 2
+1 5 2 3
+1 5 3 1
+1 5 3 2
+1 5 3 3
+iii
+ccc
+@A = (1, 5);
+print "" . <"@A {1,2,3} {1,2,3}\n"> for 1..3
+ooo
+1 5 1 1
+1 5 1 2
+1 5 1 3
+***
+do $0
+---
+file recursion
+iii
+5
+chickenfinger
+ccc
+#!perl -lp
+y///c < 10 and $_ .= "bruh", do $0
+ooo
+5bruhbruhbruh
+chickenfinger
+***
+*{$S}
+---
+typeglob variable variable
+iii
+50
+ccc
+$n = <>;
+
+# this is cursed lol
+*{$n % $_} = \($1 + 1) for 1..$n;
+print $1
+ooo
+11
+***
+$0
+---
+name of the current file
+iii
+50
+ccc
+$n = <>;
+${$n % -$_}++ for 1..$n;
+print $0
+ooo
+6
+***
+$.
+---
+amount of lines read
+iii
+5
+ccc
+$n = <>;
+$. *= $_ for 1..$n;
+print $.
+ooo
+120
+iii
+chicken
+and
+fish
+ccc
+# <> in list context consumes all at once
+/.*/, print $& x $.--, $/ for <>
+ooo
+chickenchickenchicken
+andand
+fish
+iii
+chicken
+and
+fish
+ccc
+#!perl -lp
+$_ x= $. # works with -p too
+ooo
+chicken
+andand
+fishfishfish
+***
+$+
+---
+last paren match in regex
+iii
+ccc
+$_ = "xX_chicken_Xx"
+s/(X)|x/print "[$+]\n"/ge;
+ooo
+[]
+[X]
+[X]
+[]
+***
+perl -M
+---
+bash module import
+iii
+ccc
+perl -MList::Util=max,uniq -e 'print max 1,2,3'
+ooo
+3
+***
+use DateTime
+---
+date time stuff
+***
+#!perl -lp
+push @B, $_} for (@B) {
+---
+eskimo greeting to print newline seperated array (-l sets $/ to "\n")
+***
+~~($S =~ s/bruh .//g)
+---
+count the amount of match in $S (will mutate)
+iii
+ccc
+$_ = "wower";
+print ~~s/[aeiou]//gi
+ooo
+2
+iii
+ccc
+$_ = "wower";
+print s/[aeiou]//gi # dont need inchworm if definite non zero or cast to int later
+ooo
+2
+***
+y%%%
+---
+transliterate with another delimiter so you can use '/' without escaping
+***
+s!!!
+---
+substitute with another delimiter so you can use '/' without escaping
+***
+$= = $N
+---
+max of 0 and $N (if $N is an integer or you want to cast anyway)
+***
+*A = [1,2,3]
+---
+typeglob dereference (will alias so be careful)
+iii
+ccc
+$B = [1, 2, 3];
+*A = $B;
+$A[0]++;
+print "@$B" # modification of $B indirectly
+ooo
+2 2 3
+iii
+[1, 2, 3]
+ccc
+*A = eval <>;
+print "@A"
+ooo
+1 2 3
+***
+join qw(a 1 2 3)
+---
+join on the first value the rest of the values
+iii
+ccc
+print join qw(a 1 2 3)
+ooo
+1a2a3
+***
+m??
+---
+falsy on first ever iteration of block (idk how it works lol)
+iii
+chicken
+ccc
+#!perl -l
+s/(.)(.*)/$2$1/, m?? || print for (<>) x 5
+ooo
+ickench
+ckenchi
+kenchic
+enchick
+iii
+ccc
+sub F {
+  $A = $i = 0;
+  {
+    $j = $B = 0;
+    m?? || do {
+      print "***$A***";
+      {
+        m?? || print "[$B]"; # only skips on first ever enter
+        $B++;
+        $j++ < 3 && redo
+      } 
+    };
+    $A++;
+    $i++ < 3 && redo
+  }
+  print "\n";
+}
+
+F;
+F;
+ooo
+***1***[1][2][3]***2***[0][1][2][3]***3***[0][1][2][3]
+***0***[0][1][2][3]***1***[0][1][2][3]***2***[0][1][2][3]***3***[0][1][2][3]
+***
+split /\./, $S
+---
+must use // or '' to split $S on special regex chars (or double escape if you really need to "\\.")
+***
+exp $N
+---
+e to the power of $N
+***
+atan2 $N
+---
+arctan / tan^-1 of $N (in radians)
+***
+use POSIX qw(strftime);
+
+# https://metacpan.org/pod/POSIX::strftime::GNU
+strftime "%Y:%m:%d - %H:%M:%S"
+---
+convert number to time string
+***
+($second, $minute, $hour, $month_day, $month, $year, $week_day, $year_day) = gmtime 91273
+---
+convert number to time list
+***
+~~gmtime 91273
+---
+convert number to time string
+***
+$N |= /\d/
+---
+one time variable toggle for $N
+iii
+299
+ccc
+$N |= /3/ and $- += $_ for 1..<>;
+print $-
+ooo
+12
+***
+s///regex
+---
+return execute global execute e(x)cess-whitespace (joke entry)
+iii
+a
+b4by go w8937283
+ccc
+$s = <>;
+$_ = <>;
+s/\d/"y!$&!a!"/regex;
+print
+ooo
+baby go waaaaaaa
+***
+s///ee
+---
+double eval replacement
+iii
+a
+b4by go w8937283
+ccc
+$s = <>;
+$_ = <>;
+s/\d/"y!$&!a!"/gree;
+print
+ooo
+baby go waaaaaaa
+***
+/\K/
+---
+store match right of \K into $& (append left match to $`)
+iii
+-ad
+-3c
+-ca
+-2b
+ccc
+/\d\K./ and print "$`|$&
+" for <>
+ooo
+-3|c
+-2|b
+***
+s'@A''
+---
+substitute without interpolating
+***
+($N) = @A
+---
+set $N to the first element of @A
+***
+($a, $b, @B) = @A
+---
+unpack list @A into $a (first elem), $b (second elem), and @B (rest)
+***
+$^F
+---
+2
+***
+${ \(1 + 1) }
+---
+regex / string interpolate the expression `1 + 1` as a scalar
+iii
+ccc
+sub F {
+  "w"
+}
+
+$_ = "wow";
+print /${\F}/ ? "yes" : "no" # can omit brackets depending on precedence
+ooo
+yes
+iii
+ccc
+print "bruh ${\(3 + 3)} 123" # just use baby cart for most cases
+ooo
+bruh 6 123
+iii
+ccc
+sub F {
+  3 + pop
+}
+
+print "bruh ${\F 3} 123"
+ooo
+bruh 6 123
+***
+@{{@A}}{@B}
+# %H = @A; @H{@B}
+---
+create hash reference from @A and grab @B values in list context
+***
+{@A}->{$K}
+# %H = @A; $H{$K}
+---
+create a hash reference from list @A and grab the value at key $K
+iii
+ccc
+@A = (1,2,3,4);
+$K = 3;
+print + {@A}->{$K}
+ooo
+4
+***
+@H{@A}
+---
+return values of %H at each key of @A
+iii
+ccc
+%H = (1 => 2, 5 => 6, 3 => "we");
+@A = (1, 3, 5);
+print join $", @H{@A}
+ooo
+2 we 6
+***
+%H{@A}
+---
+return key value pairs of %H for each item in @A as a single list
+iii
+ccc
+%H = (1 => 2, 5 => 6, 3 => "we");
+@A = (1, 3, 5);
+print join $", %H{@A}
+ooo
+1 2 3 we 5 6
+***
+print /(\d+) (\d+)/ && chr($1+$2) . $/ for<>
+---
+use regex to skip non matching lines (usually not shorter)
+***
+INIT {<>}
+---
+skip the first line in -p or -n
+iii
+3
+1
+2
+3
+ccc
+#!perl -lp
+INIT {$n = <>} $_ *= $n 
+ooo
+3
+6
+9
+***
+<> =~ $/
+---
+store input without newline into $`
+iii
+a
+b
+ccc
+<> =~ $/;
+print "[$`]"
+ooo
+[a]
+***
+$H{$i, $j}
+---
+multi dimensional "list"
+iii
+ccc
+for $i (0..5) {
+  for $j (0..5) {
+    $H{$i, $j} = $i * $j;
+  }
+}
+print $H{3, 3}
+ooo
+9
+***
+keys @A
+---
+list of indices of @A (0 .. $#A)
+***
+values %H
+---
+values of %H (random order)
+***
+keys %H
+---
+keys of %H (random order)
+***
+"@A" + 0
+---
+print the first element in @A (only for number list)
+iii
+ccc
+@A = (2, 2, 3);
+print 1 / "@A"
+ooo
+0.5
+***
 ~~<{1,2}{_}{1,2}>
 ---
 glob iterator
@@ -36,7 +762,7 @@ sort {@$a[0] - @$b[0]} @A
 sort list of list references @A by the first element
 iii
 ccc
-use Data::Dumper;
+use Data'Dumper;
 @A = ([1,43,3], [5,3,2], [123,12,4]);
 print Dumper sort {@$a[0] - @$b[0]} @A
 ooo
@@ -85,7 +811,7 @@ ooo
 ***
 qw(  a   b  c)
 ---
-quote words: split raw string on white space /\s*/
+quote words: split raw string on whitespace /\s*/
 iii
 ccc
 $c = "bruh";
@@ -241,10 +967,16 @@ ccc
 print $_ . "e" while $_ = getc
 ooo
 aebece
----
+***
 ++$_ for ($-) x 9
 ---
 local value of $_ that persists in each loop iteration (must have lvalue in the singleton list)
+iii
+ccc
+++$_ for ($i = 3) x 9;
+print $i # modifies lvalue value
+ooo
+9
 iii
 ccc
 $_ = "chicken";
@@ -300,21 +1032,115 @@ printf $x, /.*/, $x .= $& for <>
 ooo
 121234
 ***
+$;
+---
+multi dimensional hash seperator
+iii
+ccc
+$; = "a";
+$H{1,2,3} = 1;
+print $H{"1a2a3"}
+ooo
+1
+***
+$,
+---
+"" (output field seperator)
+iii
+ccc
+$, = ",";
+@A = (1, 2, 3);
+print @A
+ooo
+1,2,3
+iii
+ccc
+$, = ",";
+@A = (1, 2, 3);
+print 1, @A, 5
+ooo
+1,1,2,3,5
+***
+$\
+---
+"" (output record seperator)
+iii
+ccc
+$\ = "wow";
+print
+ooo
+wow
+iii
+ccc
+$\ = "wow";
+print "e"
+ooo
+ewow
+iii
+ccc
+$_ = "1";
+$\ = "wow";
+print
+ooo
+1wow
+iii
+1
+2
+ooo
+$\ += $_ * 3 for <>;
+print
+ccc
+9
+***
 $"
 ---
-" "
+" " (list seperator)
+iii
+ccc
+@A = (1,2,3);
+$" = "+";
+print "@A"
+ooo
+1+2+3
 ***
 $/
 ---
-"\n"
+"\n" (input record seperator)
+iii
+1+2+3
+ccc
+$/ = "+";
+print "[$_]" for <>
+ooo
+[1+][2+][3]
 ***
-$-
+$%
 ---
 0
 ***
+$-
+---
+0 (always casts to non negative integer)
+iii
+ccc
+$- -= 1;
+print $-
+ooo
+0
+iii
+ccc
+print + ($- += 3) /= 2
+ooo
+1
+iii
+ccc
+print $- = 3 / 2
+ooo
+1
+***
 $=
 ---
-60
+60 (always casts to integer)
 ***
 $^T
 ---
@@ -449,15 +1275,28 @@ $A[$N]
 ---
 @A at index $N (dont use @A[$N] unless you know what you are doing)
 ***
+#!perl -X
 [@A] ~~ [@B]
 ---
 check if @A smart matches with @B
 ***
+#!perl -X
 $N ~~ @A
 ---
 check if $N smart matches the last element of @A
 ***
+#!perl -X
 $N ~~ [@A]
+---
+check if $N smart matches any element of @A
+iii
+ccc
+$N = 3;
+@A = (1, 4, 3);
+
+print eval q($N ~~ [@A]) # -X / eval on codingame only
+ooo
+1
 ---
 check if $N smart matches any item in @A
 ***
@@ -466,7 +1305,7 @@ $N / .0174532925199432957692369
 ---
 convert from radians to degrees (feel free to chop some digits)
 ***
-use Math::Trig;
+use Math'Trig;
 rad2deg($N)
 ---
 convert $N from radians to degrees
@@ -476,7 +1315,7 @@ $N * .0174532925199432957692369
 ---
 convert $N from degrees to radians (feel free to chop some digits)
 ***
-use Math::Trig;
+use Math'Trig;
 deg2rad($N)
 ---
 convert $N from degrees to radians
@@ -552,10 +1391,22 @@ wow
 "\l$S"
 ---
 lowercase first character of $S
+iii
+ccc
+$_ = "AWOW123";
+print s/[a-o]/\l$&/gr
+ooo
+aWoW123
 ***
 "\u$S"
 ---
 uppercase first character of $S
+iii
+ccc
+$_ = "awow123";
+print s/[a-o]/\u$&/gr
+ooo
+AwOw123
 ***
 lc $S
 ---
@@ -602,7 +1453,7 @@ print $s
 ooo
 8
 ***
-$s =~ / /
+$S =~ / /
 ---
 store prematch into $` and postmatch into $'
 iii
@@ -647,9 +1498,9 @@ print join "+", @A
 ooo
 1+2+3
 ***
-$s =~ /.*/
+$S =~ /.*/
 ---
-store $s without newline into $&
+store $S without newline into $&
 iii
 a
 b
@@ -670,7 +1521,7 @@ fish
 ***
 \%H{@A}
 ---
-store unique keys into %H
+store unique keys into %H (random order)
 iii
 ccc
 @A = (1, 1, 4, 5);
@@ -886,7 +1737,7 @@ print $NEAT
 ooo
 neat
 ***
-use Data::Dumper;
+use Data'Dumper;
 print Dumper
 ---
 debug print
@@ -905,7 +1756,7 @@ ccc
 use Data::Dumper;
 
 @A = qw(a b c);
-print Dumper \@A # array ref
+print Dumper \@A # array reference
 ooo
 $VAR1 = [
           'a',
@@ -1016,9 +1867,20 @@ ooo
 5
 7
 ***
+#!perl -X
+---
+disable all warnings (can use smartmatch without error)
+***
 #!perl -l
 ---
-set $\ to "\n" and chomp every input when paired with -p
+set $\ to "\n" by default or chr of octal number and chomp every input when paired with -p
+iii
+ccc
+#!perl -l40
+print "[3]";
+print "[5]"; # trailing space
+ooo
+[3] [5] 
 iii
 ccc
 #!perl -l
@@ -1085,6 +1947,55 @@ $_ = <> * <>
 ooo
 15
 ***
+#!perl -a
+---
+like -n but will also split the input on /\s+/ and store into @F
+iii
+a   b c
+chicken  1 2       3
+ccc
+#!perl -a
+print "[@F]\n"
+ooo
+a b c
+chicken 1 2 3
+***
+#!perl -F
+---
+like -n but will also split the input on // or custom regex and store into @F
+iii
+1 a
+2
+ccc
+#!perl -F
+print Dumper @F
+ooo
+$VAR1 = '1';
+$VAR2 = ' ';
+$VAR3 = 'a';
+$VAR4 = '
+';
+$VAR1 = '2';
+iii
+2awja5fe3
+zz2r3zz
+ccc
+#!perl -F/\D+/
+print join(",", @F), $/
+ooo
+1,5,3
+,2,3
+iii
+2awja5fe3
+zz2r3zz
+ccc
+#!perl -F\D+
+# can omit the // if you dont have spaces in the regex
+print join(",", @F), $/
+ooo
+1,5,3
+,2,3
+***
 #!perl -p
 ---
 printing loop flag (shebang must be on first line)
@@ -1113,6 +2024,15 @@ ccc
 $_ = @
 ooo
 3
+iii
+1+1
+2+2
+3+5
+ccc
+#!perl -p
+@; = sort {$b-$a} @;, eval }{ ($_) = @
+ooo
+8
 iii
 aa bruh
 bruhz
@@ -1146,6 +2066,15 @@ a b c
 ooo
 print join $/, split $", <>
 ccc
+a
+b
+c
+iii
+a,b,c
+ccc
+$_ = <>;
+print join $/, split /,/ # implicit last argument $_
+ooo
 a
 b
 c
@@ -1429,7 +2358,7 @@ abcdef
 ***
 s///egirl
 ---
-execute global insenstive-case return locale (joke entry)
+execute global insenstive-case return locale (joke egirl entry)
 iii
 hcciekn
 ccc
@@ -1512,6 +2441,54 @@ ooo
 a
 b
 c
+iii
+ccc
+@a = (1,2);
+print <@a> . $/ for 1..10 # cycles with empty element at the end of each
+ooo
+1
+2
+
+1
+2
+
+1
+2
+
+1
+iii
+ccc
+@a = (1, 2);
+{ # different block has different cycle
+  $j = 0;
+  print "[". <@a> . "]\n";
+  {
+    print ~~<@a>, $/;
+    $j++ < 3 && redo
+  };
+  $i++ < 3 && redo
+}
+ooo
+[1]
+1
+2
+
+1
+[2]
+2
+
+1
+2
+[]
+
+1
+2
+
+[1]
+1
+2
+
+1
 ***
 A .. "`"
 ---
@@ -1536,9 +2513,9 @@ ooo
 6
 12
 ***
-"@{[$A + 3]}"
+@{[ 1 + 1 ]}
 ---
-baby cart: string interpolate an expression as a list
+baby cart: regex / string interpolate the expression `1 + 1` as a list
 iii
 1 2 3
 ccc
@@ -1546,6 +2523,12 @@ ccc
 print "@{[map $_ + 1, @A]}"
 ooo
 2 3 4
+iii
+ccc
+$_ = 6;
+print /@{[3 + 3]}/ ? "yes" : "no"
+ooo
+yes
 ***
 $A . $B
 ---
@@ -1637,6 +2620,7 @@ iii
 ccc
 print substr "abcdefgasdfsdf", 6, 2
 ooo
+ga
 iii
 ccc
 print substr "abcdefgasdfsdf", 6, -2 # up to the -2 index
@@ -1652,20 +2636,27 @@ range from 1 to $n inclusive
 ---
 split $" seperated line once into 2 variables $` and $' respectively
 ***
-# $` = <>; $' = `dd`;
+# chomp($` = <>); $' = `dd`;
 `dd` =~ $/
 ---
 split $/ seperated all of input into $` and $'
 ***
 vec
 ---
-treat string as bitstring
+treat string as bit vector
 iii
 ccc
 $a = "abc";
 print vec $a, 0, 8; # 8 bits offset of 0 chunks of 8 bits kinda like ord(($a =~ /./g)[0]) in this case
 ooo
 97
+iii
+ccc
+printf "%b\n", ord n;
+print vec "n", $_, 1 for 1..7
+ooo
+1101110
+1110110
 ***
 $A x $B
 ---
@@ -1687,6 +2678,12 @@ iii
 ccc
 $B = "1010";
 print oct "b$B"
+ooo
+10
+iii
+ccc
+$B = "1010";
+print oct b . $B # bareword
 ooo
 10
 iii
@@ -1746,15 +2743,16 @@ ooo
 ***
 $_ = "we
 go";
+/^/; # might need this before if you used regex on $_
 $T.=join("",/^./mg).$/while s///g
 ---
 transpose $_ with \n seperated values and store in $T
 ***
 $a = 3;
 $b = 5;
-print+(< i like chicken>)[$a <=> $b];
+print+(<i like   chicken >)[$a <=> $b];
 ---
-3 way comparison with $ and $b
+3 way comparison with $a and $b
 less last, equal earliest, greater goldilocks (give me a better last one lol)
 ***
 @A = qw(i like chicken);
@@ -1897,7 +2895,7 @@ and chicken l][ikes me]
 ***
 glob <>
 ---
-split line of input on \S+ and remove empty values (won't work if any `}{*~` present)
+split line of input on \s+ and remove empty values (won't work if any `}{*~` present)
 ***
 use Math'BigInt bgcd;
 $n = <>;
@@ -2066,9 +3064,9 @@ u
 h
 +
 ***
-y///c
+$S =~ y///c
 ---
-length of $_
+length of $S
 iii
 nice plate
 ccc
@@ -2084,9 +3082,9 @@ print $a =~ y///c
 ooo
 9
 ***
-y/1//
+$S =~ y/1//
 ---
-count amount of `1` in string
+count amount of `1` in string $S
 iii
 ccc
 $_ = "chicken 1 chicken 2 123";

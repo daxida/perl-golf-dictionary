@@ -4,11 +4,56 @@
 }
 
 html, body {
-  height: 97%;
-  width: 99%;
   font-family: Monocraft;
   color: #f3f3f3;
   background-color: #111111;
+}
+
+table {
+  width: 100%;
+  height: 100%;
+}
+
+.code {
+  padding: 2vh 0 2vh;
+  white-space: pre-wrap;
+  width: 60vh;
+  max-width: 60vh;
+}
+
+.description {
+  padding: 2vh 0 2vh;
+  white-space: pre-wrap;
+  width: 35vh;
+  max-width: 35vh;
+}
+
+
+.example, .example-hide {
+  width: 75px;
+}
+
+.example > button {
+  font-family: Monocraft;
+  border: none;
+  background-color: orange;
+  width: 100%;
+  height: 100%;
+}
+
+.example > button:hover {
+  font-family: Monocraft;
+  color: white;
+  border: none;
+  background-color: #ff00ff;
+  width: 100%;
+  height: 100%;
+}
+
+
+.example-hide > button {
+  opacity: 0;
+  background-color: transparent
 }
 
 .dropdown {
@@ -21,52 +66,40 @@ html, body {
 }
 
 table {
-  white-space: pre-wrap;
-  border-spacing: 0.5em 0.5em;
+  /* white-space: pre-wrap; */
+  border-spacing: 1vh 1vh;
   table-layout:fixed;
-  width:100%;
+  /* width:100%; */
 }
 
 .table-example {
-
 	border-collapse: collapse;
 }
 
 input {
-  width: 50em;
-  height: 2em;
+  width: 100vh;
+  height: 4vh;
 }
 
 .tr-example {
 	border-bottom: 1px solid red;
-  /* border-width: 0.2em; */
 }
 .tr-example:nth-last-child(1) {
    border-bottom: none;
 }
 
-
 .snippet {
-	margin-top: 0.5em;
-	margin-right: 0.2em;
-	margin-left: 0.2em;
-	margin-bottom: 0.5em;
-  padding: 0.2em 0.2em 0.2em 0.2em;
+	margin-top: 1vh;
+	margin-right: 0.4vh;
+	margin-left: 0.4vh;
+	margin-bottom: 1h;
+  padding: 0.4vh 0.4vh 0.4vh 0.4vh;
   text-align: left;
   font-weight: normal;
   display: inline-block;
   white-space: pre-wrap;
   vertical-align:top;
   background-color: #333333;
-}
-
-
-button {
-	background-color: orange;
-  font-family: Monocraft;
-  padding: 0.2em;
-  border: none;
-  width: 100%;
 }
 
 .cm-header {color: blue;}

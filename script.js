@@ -21,13 +21,12 @@ async function code_arr_text(code_arr) {
   let ind = 0;
   return code_arr.map(x => {
     const [i, code, description, example_arr] = x;
-    // const code = _code.replaceAll("🦋", "");
     let z = `
 <table id = "filter-${i}" class = "filter-aaa" border="5">
 <tr>
-  <td style="width:60vh" class="code-x" id = "code-${ind}"><xmp>${code}</xmp></td>
-  <td style="width:35vh">${description}</td>
-  <td style="width:5vh">
+  <td class="code code-x" id = "code-${ind}"><xmp>${code}</xmp></td>
+  <td class="description">${description}</td>
+  <td class="${typeof example_arr === 'undefined' ? "example-hide" : "example"}">
     <button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>
   </td>
 </tr>
@@ -35,9 +34,7 @@ async function code_arr_text(code_arr) {
 `;
     ind += 1;
     let example_dropdown = ""
-    if (typeof example_arr === "undefined") {
-      z = z.replace(`<button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>`, "")
-    } else {
+    if (typeof example_arr !== "undefined") {
       example_dropdown = example_arr.map(e => {
         let stdin = "";
         let c = "";

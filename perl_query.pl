@@ -1,3 +1,183 @@
+undef // &F
+---
+crash the program during runtime
+iii
+5 4 3 2 1 0
+0 1 2 847 4
+ccc
+@A = glob <>;
+print $A[$_] // &:, $/ for glob <>
+ooo
+5
+4
+3
+***
+`factor $N` =~ /: \d+$/
+---
+check if $N is prime
+***
+$N & ($N - 1) == 0
+---
+check if $N is a power of 2
+***
+($A ^ $B) > 2 ** 63
+---
+check if $A has a different sign than $B (i think this works)
+***
+${$S}
+---
+variable variable (default "hash")
+iii
+chicken
+finger
+chicken
+ccc
+chomp, $$_++ for <>; # can omit brackets usually
+print $chicken
+ooo
+2
+iii
+chicken
+finger
+chicken
+ccc
+`dd` =~ s/.*/++${$&}/ger;
+print $chicken
+ooo
+2
+***
+-A
+---
+set $! to 2 in numerical context
+***
+@ARGS
+---
+command line arguments
+***
+!<>
+---
+0 (if more than 1 line of input)
+iii
+2
+4
+3
+ccc
+# <>;$z+=$_**$_ for<>;print 0|1+sqrt$z
+print!<>|1+${\map$z+=$_**$_,<>}**.5
+ooo
+17
+***
+$/ = $S;
+print <> + <>
+---
+single use $S seperated input
+iii
+1 2
+ccc
+$/ = $";
+print <> + <>
+ooo
+3
+***
+$$_ = <> for A..Z
+---
+read a lot of arguments
+iii
+1 2 3 4 5 6 7
+ccc
+$/ = $";
+$$_ = <> for A..Z;
+
+print $G
+ooo
+7
+***
+m!.!
+---
+regular expression (nesting)
+iii
+ccc
+$_ = "bruha";
+m!.(?{$z += /[aeiou]/ * $i++})^!;
+print $z
+ooo
+10
+***
+@A = (@B, @A)
+---
+shorter unshift @B to @A
+***
+@A = (@A, @B)
+---
+shorter push @B to @A
+***
+@A[-$N..-1]
+---
+slice the last $N items list @A
+***
+/$/
+---
+store outer $_ into $` if // and $' doesn't work (// will try to use prev regex)
+iii
+3 5
+1
+6
+4
+ccc
+# https://atcoder.jp/contests/abc215/submissions/25248485
+<>;
+@$_ | /:/ || map @{$_ * $`} = 1, /$/ .. 1e5 / $` for glob `factor`;
+@A = grep $#$_, 1..$';
+print @A . "
+@A"
+ooo
+2
+1 5
+***
+$A | $B && $C & $D
+# ($A || $B) && ($C && $D)
+---
+higher precedence logical comparisons (ensure they are boolean)
+***
+$#A
+---
+-1 (if nothing in @A)
+iii
+ccc
+$a = 3;
+print $#A ** ($a == 3)
+ooo
+-1
+***
+~~map /ABC/g, $S
+---
+count how many matches in string $S (work with list too)
+***
+$S !~ /\d/
+---
+check of $S does not match the regex
+iii
+ccc
+$S = "achicken";
+print $S !~ /\d/ ? ya : no
+ooo
+no
+***
+<> !~ $"
+---
+split input by $" into $` $' and return 0
+iii
+3 5
+ccc
+print $` * $' + $_, $/ for <> !~ $" .. 5
+ooo
+15
+16
+17
+18
+19
+20
+***
 $H{print "bruh"; 3}
 ---
 evaluate code block and index hash %H
@@ -20,7 +200,11 @@ ooo
 1400828
 1434457420
 ***
-$n = $n * 2 + $_ for $S =~ /./g
+$n = $n * $B + $_ for $S =~ /./g
+---
+convert base $B string $S to decimal (store in $n)
+***
+$n += $n + $_ for $S =~ /./g
 ---
 convert base 2 string $S to decimal (store in $n)
 ***
@@ -28,8 +212,14 @@ convert base 2 string $S to decimal (store in $n)
 ---
 range 30 to 50 in reverse order
 iii
-ooo
 ccc
+print "." x -$_, $/ for -5..-1
+ooo
+.....
+....
+...
+..
+.
 ***
 /(.)(?1)/
 ---
@@ -240,8 +430,23 @@ $N = 3;
 print "$N" + ($N += 3)
 ooo
 9
+iii
+ccc
+print "$_
+" x (s/.(??{$& + 1})//g > 1) for 1..2301
+ooo
+1201
+1212
+1223
+1234
+1245
+1256
+1267
+1278
+1289
+2301
 ***
-$a ? chicken : onion
+$A ? chicken : onion
 ---
 ternary with bareword branches
 iii
@@ -581,13 +786,28 @@ substitute without interpolating
 ---
 set $N to the first element of @A
 ***
-($a, $b, @B) = @A
+($A, $B, @B) = @A
 ---
-unpack list @A into $a (first elem), $b (second elem), and @B (rest)
+unpack list @A into $A (first elem), $B (second elem), and @B (rest)
+***
+$^D
+---
+0 (unsigned 32 bit integer $\x04)
+iii
+++++++-------++
+ccc
+# http://golf.shinh.org/reveal.rb?rad+math/Sisyphus_1673174109&pl
+print + (0, "*", 1..5)[$^D += $_.1] // &: for <>=~/./g
+ooo
+*123454321*0
+***
+$^E
+---
+0 in numerical context (signed 32 bit integer $\x05)
 ***
 $^F
 ---
-2
+2 (on anagol you can use $\x06 (2 bytes))
 ***
 ${ \(1 + 1) }
 ---
@@ -811,7 +1031,7 @@ ooo
 ***
 qw(  a   b  c)
 ---
-quote words: split raw string on whitespace /\s*/
+quote words: split raw string on whitespace /\s+/
 iii
 ccc
 $c = "bruh";
@@ -1102,6 +1322,10 @@ $" = "+";
 print "@A"
 ooo
 1+2+3
+***
+$a $b
+---
+sorting variables (dont use elsewhere unless you know what you are doing) 
 ***
 $/
 ---
@@ -1552,7 +1776,7 @@ prime factorization each input line
 ***
 ${\sort {$b-$a} @A}
 ---
-min of list @A
+min of list @A (use <=> for large values)
 ***
 \@B[@A]
 ---
@@ -2316,15 +2540,15 @@ bruh
 bruh
 ***
 sub add {
-  my ($a, $b) = @_
-  $a + $b
+  my ($A, $B) = @_
+  $A + $B
 }
 
-$c = add 5, 3
+$C = add 5, 3
 ---
 function / subroutine
 ***
-$a ? $b : $c
+$A ? $B : $C
 ---
 ternary operator
 iii
@@ -2534,9 +2758,9 @@ $A . $B
 ---
 string concatenate $A and $B
 ***
-eval "\$A =~ y/$a/$b/"
+eval "\$S =~ y/$A/$B/"
 ---
-transliterate / translate $A with variable input chars $a and output $b
+transliterate / translate $S with variable input chars $A and output $B
 iii
 w
 d
@@ -2613,9 +2837,13 @@ ooo
 3chicken5wow
 ccc
 ***
-substr $s, $a, $b
+substr $S, $A
 ---
-substring of length $b of string $s starting from index $a
+substring of string $S starting from index $A
+***
+substr $S, $A, $B
+---
+substring of length $B of string $S starting from index $A
 iii
 ccc
 print substr "abcdefgasdfsdf", 6, 2
@@ -2748,11 +2976,11 @@ $T.=join("",/^./mg).$/while s///g
 ---
 transpose $_ with \n seperated values and store in $T
 ***
-$a = 3;
-$b = 5;
-print+(<i like   chicken >)[$a <=> $b];
+$A = 3;
+$B = 5;
+print+(<i like   chicken >)[$A <=> $B];
 ---
-3 way comparison with $a and $b
+3 way comparison with $A and $B
 less last, equal earliest, greater goldilocks (give me a better last one lol)
 ***
 @A = qw(i like chicken);
@@ -2765,22 +2993,22 @@ s!\S+ !print $& - $', $/!ge
 ---
 apply a function on each consecutive pair of space seperated pairs of values
 ***
-$n = 10000;
-$b = 10;
-@D=(0)x!$n;
-$D[@D]=$n%$b,$n=$n/$b|0while$n
+$N = 10000;
+$B = 10;
+@D=(0)x!$N;
+$D[@D]=$N%$B,$N=$N/$B|0while$N
 ---
-store digits of $n in base $b into @D
+store digits of $N in base $B into @D
 ***
 use Math'BigInt bgcd;
-$a = bgcd->from_base("chicken", 36);
-$b = $a->to_base(36);
+$A = bgcd->from_base("chicken", 36);
+$B = $A->to_base(36);
 ---
 base conversion from a base containing `0-9a-z` (2-36)
 ***
 use Math'BigInt bgcd;
-$a = bgcd->from_base("chikenchikenchikenchiken", 6, "chiken");
-$b = $a->to_base(6, "chiken");
+$A = bgcd->from_base("chikenchikenchikenchiken", 6, "chiken");
+$B = $A->to_base(6, "chiken");
 ---
 base conversion from arbitrary base with specified base values
 ***
@@ -2932,9 +3160,9 @@ ooo
 117
 104
 ***
-$a + $b
+$A + $B
 ---
-add $a to $b
+add $A to $B
 iii
 ccc
 $a = 3;

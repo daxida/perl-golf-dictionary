@@ -1,3 +1,77 @@
+s//-/
+---
+short $_ assignment / prepend for non bareword string
+***
+$H{$_} = $-++ for @A
+---
+store the index of each element from @A into %H (last index w/ duplicate & more flexible)
+***
+@H{@A} = keys @A
+---
+store the index of each element from @A into %H (last index w/ duplicate)
+***
+%H = qw(ROCK PAPER SCISSORS) x 2
+---
+store cyclic hash map %H from list
+***
+#!perl -p
+s;$; $A
+---
+insert string $A at the end of $_ space sep with -p / -n / -a flag (only at end of program)
+***
+1/!print $S
+---
+exit the program while printing string $S
+***
+$S =~ /((.))/g
+---
+double each character in $S (works because global matches will return a seperate string for last, 2nd last, 3rd last, etc. group if there is a group)
+***
+$S =~ /.{$N}(.)/g
+---
+get every nth ($N + 1) char from $S
+iii
+12342345345645675678
+ccc
+$A = 4;
+$N = $A - 1;
+print join $", <> =~ /.{$N}(.)/g
+ooo
+4 5 6 7 8
+***
+%{{@A}}
+---
+convert list @A to a hashmap (unordered)
+iii
+abcabc
+ccc
+print ~~%{{map {$_, 1} <>=~/./g}}
+ooo
+3
+***
+%H = @A
+---
+maintain order of the key value pairs in list @A but use the last value
+iii
+ccc
+print join $/, %H = (1, 2, "a", "b", 1, 593287)
+ooo
+1
+593287
+a
+b
+iii
+apple: $100
+orange: $10
+apple: $10
+ccc
+# http://golf.shinh.org/reveal.rb?friend+of+a+friend/tails+%28Sisyphus%29_1674010743&pl
+print %H = map {/.*\$/g, sprintf"%x
+", (${$&} //= 1) *= hex$'} <>
+ooo
+apple: $1000
+orange: $10
+***
 undef // &F
 ---
 crash the program during runtime
@@ -365,7 +439,7 @@ binmode STDIN,utf8;
 $S = <>;
 @S = $S =~ /./g;
 
-eval 'print $S[0]' # -X / eval on codingame only
+print $S[0]
 ooo
 🦋
 ***
@@ -790,6 +864,10 @@ set $N to the first element of @A
 ---
 unpack list @A into $A (first elem), $B (second elem), and @B (rest)
 ***
+$^H
+---
+256 (unsigned 32 bit integer $\x08)
+***
 $^D
 ---
 0 (unsigned 32 bit integer $\x04)
@@ -928,11 +1006,11 @@ list of indices of @A (0 .. $#A)
 ***
 values %H
 ---
-values of %H (random order)
+values of %H (unordered)
 ***
 keys %H
 ---
-keys of %H (random order)
+keys of %H (unordered)
 ***
 "@A" + 0
 ---
@@ -1499,17 +1577,14 @@ $A[$N]
 ---
 @A at index $N (dont use @A[$N] unless you know what you are doing)
 ***
-#!perl -X
 [@A] ~~ [@B]
 ---
 check if @A smart matches with @B
 ***
-#!perl -X
 $N ~~ @A
 ---
 check if $N smart matches the last element of @A
 ***
-#!perl -X
 $N ~~ [@A]
 ---
 check if $N smart matches any element of @A
@@ -1518,7 +1593,7 @@ ccc
 $N = 3;
 @A = (1, 4, 3);
 
-print eval q($N ~~ [@A]) # -X / eval on codingame only
+print eval q($N ~~ [@A])
 ooo
 1
 ---
@@ -1745,7 +1820,7 @@ fish
 ***
 \%H{@A}
 ---
-store unique keys into %H (random order)
+store unique keys into %H (unordered)
 iii
 ccc
 @A = (1, 1, 4, 5);
@@ -1774,9 +1849,17 @@ bash sort all lines in input
 ---
 prime factorization each input line
 ***
+${\sort @A}
+---
+max of list (string sort)
+***
+${\sort {$a-$b} @A}
+---
+max of list @A (numerical sort) (use <=> for large values)
+***
 ${\sort {$b-$a} @A}
 ---
-min of list @A (use <=> for large values)
+min of list @A (numerical sort) (use <=> for large values)
 ***
 \@B[@A]
 ---
@@ -2090,10 +2173,6 @@ ooo
 3
 5
 7
-***
-#!perl -X
----
-disable all warnings (can use smartmatch without error)
 ***
 #!perl -l
 ---
@@ -2610,7 +2689,7 @@ iii
 ccc
 %A = qw(a b);
 $A{"e"} = 5;
-print keys %A # random order
+print keys %A # unordered
 ooo
 ea
 iii

@@ -125,6 +125,15 @@ async function main(code_arr) {
   await code_mirror_rep();
 }
 
+function toggle_search() {
+  console.log($(".toggle-search-button").text());
+  if ($(".toggle-search-button").text() === "Entry") {
+    $(".toggle-search-button").text("Example");
+  } else {
+    $(".toggle-search-button").text("Entry");
+  }
+}
+
 $(document).ready(() => {
   file_wait();
 
@@ -142,21 +151,66 @@ $(document).ready(() => {
       drop.classList.remove("show");
     });
 
-    $(".filter-aaa").map((_i, query_entry) => {
-      // console.log("entry ", query_entry.children[0].children[0].children[0].children[0]);
-      // let re_raw = new RegExp(String.raw`${query}`);
-      // let re = new RegExp(query);
-      // let re_raw_arr = query.split(" ").map(q => new RegExp(String.raw`${q}`));
-      // let re_arr = query.split(" ").map(q => new RegExp(q));
-      let query_check = query_entry.children[0].children[0];
-      let [code, description, _] = [...query_check.children].map(qe => qe.innerText);
+    if ($(".toggle-search-button").text() === "Entry") {
+      $(".table-example").map((_i, query_example_tab) => {
+        if (query_example_tab.children.length > 0) {
+          let query_example = query_example_tab.children[0].children;
+          for (let i = 0; i < query_example.length; i++) {
+              query_example[i].style.display = "table-row";
+          }
 
-      if (code.includes(query) || description.includes(query)) {
-      // if (re.test(code) || re_raw.test(code) || re.test(description) || re.test(description) || re_raw_arr.some(r => r.test(code) || r.test(description)) || re_arr.some(r => r.test(code) || r.test(description))) {
-        query_entry.style.display = "table";
-      } else {
+        }
+        query_example_tab.classList.remove("show");
+        query_example_tab.style.display = "";
+      });
+
+      $(".filter-aaa").map((_i, query_entry) => {
+        // console.log("entry ", query_entry.children[0].children[0].children[0].children[0]);
+        // let re_raw = new RegExp(String.raw`${query}`);
+        // let re = new RegExp(query);
+        // let re_raw_arr = query.split(" ").map(q => new RegExp(String.raw`${q}`));
+        // let re_arr = query.split(" ").map(q => new RegExp(q));
+        let query_check = query_entry.children[0].children[0];
+        let [code, description, _] = [...query_check.children].map(qe => qe.innerText);
+
+        if (code.includes(query) || description.includes(query)) {
+        // if (re.test(code) || re_raw.test(code) || re.test(description) || re.test(description) || re_raw_arr.some(r => r.test(code) || r.test(description)) || re_arr.some(r => r.test(code) || r.test(description))) {
+          query_entry.style.display = "table";
+        } else {
+          query_entry.style.display = "none";
+        }
+      })
+
+    } else {
+      $(".filter-aaa").map((_i, query_entry) => {
         query_entry.style.display = "none";
-      }
-    })
+      });
+
+      $(".table-example").map((_i, query_example_tab) => {
+        if (query_example_tab.children.length > 0) {
+          let query_example = query_example_tab.children[0].children;
+          // console.log("what ", children);
+          let query_match = 0;
+          for(let i = 0; i < query_example.length; i++){
+
+            if (query_example[i].innerText.includes(query)) {
+              query_match += 1;
+              query_example[i].style.display = "table-row";
+            } else {
+              query_example[i].style.display = "none";
+            }
+          }
+
+          if (query_match) {
+            query_example_tab.style.display = "table";
+          } else {
+
+            query_example_tab.style.display = "none";
+          }
+        } else {
+          query_example_tab.style.display = "none";
+        }
+      });
+    }
   });
 });

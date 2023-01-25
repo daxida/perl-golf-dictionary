@@ -1,4 +1,3 @@
-
 @font-face {
   font-family: Monocraft;
   src: url(Monocraft.ttf)
@@ -13,6 +12,19 @@ html, body {
 table {
   width: 100%;
   height: 100%;
+}
+
+input {
+  width: 100vh;
+  height: 4vh;
+  display: inline-block;
+}
+
+
+h4, input {
+  font-family: Monocraft;
+  display: inline-block;
+  margin: 0;
 }
 
 .QUERY {
@@ -36,6 +48,30 @@ table {
 
 .example, .example-hide {
   width: 8vh;
+}
+
+.toggle-search > button {
+  font-family: Monocraft;
+  display: inline-block;
+  border: none;
+  background-color: orange;
+  border-radius: 0.5vh;
+  color: black;
+  height: 100%;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
+.toggle-search > button:hover {
+  font-family: Monocraft;
+  display: inline-block;
+  border: none;
+  background-color: #ff00ff;
+  border-radius: 0.5vh;
+  color: black;
+  height: 100%;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
 }
 
 .example > button {
@@ -77,26 +113,22 @@ table {
 }
 
 .table-example {
-	border-collapse: collapse;
-}
-
-input {
-  width: 100vh;
-  height: 4vh;
+  border-collapse: collapse;
 }
 
 .tr-example {
-	border-bottom: 1px solid red;
+  border-bottom: 1px solid red;
 }
+
 .tr-example:nth-last-child(1) {
    border-bottom: none;
 }
 
 .snippet {
-	margin-top: 1vh;
-	margin-right: 0.4vh;
-	margin-left: 0.4vh;
-	margin-bottom: 1h;
+  margin-top: 1vh;
+  margin-right: 0.4vh;
+  margin-left: 0.4vh;
+  margin-bottom: 1h;
   padding: 0.4vh 0.4vh 0.4vh 0.4vh;
   text-align: left;
   font-weight: normal;

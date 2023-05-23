@@ -1,0 +1,3519 @@
+[
+  {
+    "idx": 0,
+    "code": "s//-/",
+    "description": "short $_ assignment / prepend for non bareword string",
+    "examples": []
+  },
+  {
+    "idx": 1,
+    "code": "$H{$_} = $-++ for @A",
+    "description": "store the index of each element from @A into %H (last index w/ duplicate & more flexible)",
+    "examples": []
+  },
+  {
+    "idx": 2,
+    "code": "@H{@A} = keys @A",
+    "description": "store the index of each element from @A into %H (last index w/ duplicate)",
+    "examples": []
+  },
+  {
+    "idx": 3,
+    "code": "%H = qw(ROCK PAPER SCISSORS) x 2",
+    "description": "store cyclic hash map %H from list",
+    "examples": []
+  },
+  {
+    "idx": 4,
+    "code": "#!perl -p\ns;$; $A",
+    "description": "insert string $A at the end of $_ space sep with -p / -n / -a flag (only at end of program)",
+    "examples": []
+  },
+  {
+    "idx": 5,
+    "code": "1/!print $S",
+    "description": "exit the program while printing string $S",
+    "examples": []
+  },
+  {
+    "idx": 6,
+    "code": "$S =~ /((.))/g",
+    "description": "double each character in $S (works because global matches will return a seperate string for last, 2nd last, 3rd last, etc. group if there is a group)",
+    "examples": []
+  },
+  {
+    "idx": 7,
+    "code": "$S =~ /.{$N}(.)/g",
+    "description": "get every nth ($N + 1) char from $S",
+    "examples": [
+      {
+        "stdin": "12342345345645675678",
+        "code": "$A = 4;\n$N = $A - 1;\nprint join $\", <> =~ /.{$N}(.)/g",
+        "stdout": "4 5 6 7 8",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 8,
+    "code": "%{{@A}}",
+    "description": "convert list @A to a hashmap (unordered)",
+    "examples": [
+      {
+        "stdin": "abcabc",
+        "code": "print ~~%{{map {$_, 1} <>=~/./g}}",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 9,
+    "code": "%H = @A",
+    "description": "maintain order of the key value pairs in list @A but use the last value",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print join $/, %H = (1, 2, \"a\", \"b\", 1, 593287)",
+        "stdout": "1\n593287\na\nb",
+        "links": []
+      },
+      {
+        "stdin": "apple: $100\norange: $10\napple: $10",
+        "code": "\nprint %H = map {/.*\\$/g, sprintf\"%x\n\", (${$&} //= 1) *= hex$'} <>",
+        "stdout": "apple: $1000\norange: $10",
+        "links": [
+          "http://golf.shinh.org/reveal.rb?friend+of+a+friend/tails+%28Sisyphus%29_1674010743&pl"
+        ]
+      }
+    ]
+  },
+  {
+    "idx": 10,
+    "code": "undef // &F",
+    "description": "crash the program during runtime",
+    "examples": [
+      {
+        "stdin": "5 4 3 2 1 0\n0 1 2 847 4",
+        "code": "@A = glob <>;\nprint $A[$_] // &:, $/ for glob <>",
+        "stdout": "5\n4\n3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 11,
+    "code": "`factor $N` =~ /: \\d+$/",
+    "description": "check if $N is prime",
+    "examples": []
+  },
+  {
+    "idx": 12,
+    "code": "$N & ($N - 1) == 0",
+    "description": "check if $N is a power of 2",
+    "examples": []
+  },
+  {
+    "idx": 13,
+    "code": "($A ^ $B) > 2 ** 63",
+    "description": "check if $A has a different sign than $B (i think this works)",
+    "examples": []
+  },
+  {
+    "idx": 14,
+    "code": "${$S}",
+    "description": "variable variable (default \"hash\")",
+    "examples": [
+      {
+        "stdin": "chicken\nfinger\nchicken",
+        "code": "chomp, $$_++ for <>; # can omit brackets usually\nprint $chicken",
+        "stdout": "2",
+        "links": []
+      },
+      {
+        "stdin": "chicken\nfinger\nchicken",
+        "code": "`dd` =~ s/.*/++${$&}/ger;\nprint $chicken",
+        "stdout": "2",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 15,
+    "code": "-A",
+    "description": "set $! to 2 in numerical context",
+    "examples": []
+  },
+  {
+    "idx": 16,
+    "code": "@ARGS",
+    "description": "command line arguments",
+    "examples": []
+  },
+  {
+    "idx": 17,
+    "code": "!<>",
+    "description": "0 (if more than 1 line of input)",
+    "examples": [
+      {
+        "stdin": "2\n4\n3",
+        "code": "# <>;$z+=$_**$_ for<>;print 0|1+sqrt$z\nprint!<>|1+${\\map$z+=$_**$_,<>}**.5",
+        "stdout": "17",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 18,
+    "code": "$/ = $S;\nprint <> + <>",
+    "description": "single use $S seperated input",
+    "examples": [
+      {
+        "stdin": "1 2",
+        "code": "$/ = $\";\nprint <> + <>",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 19,
+    "code": "$$_ = <> for A..Z",
+    "description": "read a lot of arguments",
+    "examples": [
+      {
+        "stdin": "1 2 3 4 5 6 7",
+        "code": "$/ = $\";\n$$_ = <> for A..Z;\n\nprint $G",
+        "stdout": "7",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 20,
+    "code": "m!.!",
+    "description": "regular expression (nesting)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"bruha\";\nm!.(?{$z += /[aeiou]/ * $i++})^!;\nprint $z",
+        "stdout": "10",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 21,
+    "code": "@A = (@B, @A)",
+    "description": "shorter unshift @B to @A",
+    "examples": []
+  },
+  {
+    "idx": 22,
+    "code": "@A = (@A, @B)",
+    "description": "shorter push @B to @A",
+    "examples": []
+  },
+  {
+    "idx": 23,
+    "code": "@A[-$N..-1]",
+    "description": "slice the last $N items list @A",
+    "examples": []
+  },
+  {
+    "idx": 24,
+    "code": "/$/",
+    "description": "store outer $_ into $` if // and $' doesn't work (// will try to use prev regex)",
+    "examples": [
+      {
+        "stdin": "3 5\n1\n6\n4",
+        "code": "\n<>;\n@$_ | /:/ || map @{$_ * $`} = 1, /$/ .. 1e5 / $` for glob `factor`;\n@A = grep $#$_, 1..$';\nprint @A . \"\n@A\"",
+        "stdout": "2\n1 5",
+        "links": [
+          "https://atcoder.jp/contests/abc215/submissions/25248485"
+        ]
+      }
+    ]
+  },
+  {
+    "idx": 25,
+    "code": "$A | $B && $C & $D\n# ($A || $B) && ($C && $D)",
+    "description": "higher precedence logical comparisons (ensure they are boolean)",
+    "examples": []
+  },
+  {
+    "idx": 26,
+    "code": "$#A",
+    "description": "-1 (if nothing in @A)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$a = 3;\nprint $#A ** ($a == 3)",
+        "stdout": "-1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 27,
+    "code": "~~map /ABC/g, $S",
+    "description": "count how many matches in string $S (work with list too)",
+    "examples": []
+  },
+  {
+    "idx": 28,
+    "code": "$S !~ /\\d/",
+    "description": "check of $S does not match the regex",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"achicken\";\nprint $S !~ /\\d/ ? ya : no",
+        "stdout": "no",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 29,
+    "code": "<> !~ $\"",
+    "description": "split input by $\" into $` $' and return 0",
+    "examples": [
+      {
+        "stdin": "3 5",
+        "code": "print $` * $' + $_, $/ for <> !~ $\" .. 5",
+        "stdout": "15\n16\n17\n18\n19\n20",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 30,
+    "code": "$H{print \"bruh\"; 3}",
+    "description": "evaluate code block and index hash %H",
+    "examples": []
+  },
+  {
+    "idx": 31,
+    "code": "$n && ${print \"chicken $_\\n\" for 1..5}",
+    "description": "evaluate code block if condition $n is true",
+    "examples": [
+      {
+        "stdin": "4\n1\n3\n6\n7",
+        "code": "<>;\n//, $' % 2 && ${($x += $') <<= 2 for 1..5}, print $x, $/ for <>",
+        "stdout": "1364\n1400828\n1400828\n1434457420",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 32,
+    "code": "$n = $n * $B + $_ for $S =~ /./g",
+    "description": "convert base $B string $S to decimal (store in $n)",
+    "examples": []
+  },
+  {
+    "idx": 33,
+    "code": "$n += $n + $_ for $S =~ /./g",
+    "description": "convert base 2 string $S to decimal (store in $n)",
+    "examples": []
+  },
+  {
+    "idx": 34,
+    "code": "-$_ for -50..-30",
+    "description": "range 30 to 50 in reverse order",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print \".\" x -$_, $/ for -5..-1",
+        "stdout": ".....\n....\n...\n..\n.",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 35,
+    "code": "/(.)(?1)/",
+    "description": "inject the nth group in a regex",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"1a3927e\"\nprint /([aeiou])\\d+(?1)/ ? $& : invalid",
+        "stdout": "a3927e",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 36,
+    "code": "print $_ + 3for <>",
+    "description": "short single line input with $_ if there is no whitespace before the for ",
+    "examples": [
+      {
+        "stdin": "5\n5",
+        "code": "$_=<>;print$_+3;\nprint$_+3for<>",
+        "stdout": "88",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 37,
+    "code": "/(??{ 1 + 1 })/",
+    "description": "postponed match: match a perl expression with $&, $1, etc",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"2123\";\nprint /\\d(??{ $& + 1 })/ ? $& : invalid",
+        "stdout": "12",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"aeb\";\n$r = \"[aeiou]\";\nprint /.(??{$a = $&; $r . ++$a})/ ? \"good\" : \"bad\"",
+        "stdout": "good",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 38,
+    "code": "map {$i = 0; [map $A[$_]->[$i], 0..$#A]} 0..$#{$A[0]}\n# map{//;[map$A[$_]->[$'],0..$#A]}0..$#{$A[0]}",
+    "description": "transpose list @A of list references",
+    "examples": []
+  },
+  {
+    "idx": 39,
+    "code": "qq{}",
+    "description": "double quote string with any delimiter\nq{}",
+    "examples": []
+  },
+  {
+    "idx": 40,
+    "code": "'chicken $S'",
+    "description": "raw string `chicken $S`",
+    "examples": []
+  },
+  {
+    "idx": 41,
+    "code": "\"@_\"",
+    "description": "first argument in subroutine (must be number)",
+    "examples": []
+  },
+  {
+    "idx": 42,
+    "code": "&F",
+    "description": "call function &F without any arguments",
+    "examples": [
+      {
+        "stdin": "10\n1",
+        "code": "sub F {oct b . <>}\n&F + F # dont need brackets",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "BRUH\n101",
+        "code": "sub F {oct b . <>}\nprint <> =~ /B/ ? &F : 3 + F # avoid ternary bareword",
+        "stdout": "5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 43,
+    "code": "$S++",
+    "description": "post increment string $S",
+    "examples": []
+  },
+  {
+    "idx": 44,
+    "code": "++$S",
+    "description": "pre increment string $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$a = \"brug\";\nprint ++$a",
+        "stdout": "bruh",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$a = \"z\";\nprint ++$a",
+        "stdout": "aa",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$a = \"zZ\";\nprint ++$a",
+        "stdout": "aaA",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 45,
+    "code": "$S =~ /(.)\\1/",
+    "description": "2 of the same character beside each other in $S",
+    "examples": []
+  },
+  {
+    "idx": 46,
+    "code": "/\\PL/",
+    "description": "match lowercase character",
+    "examples": []
+  },
+  {
+    "idx": 47,
+    "code": "/\\s/",
+    "description": "match whitespace character",
+    "examples": []
+  },
+  {
+    "idx": 48,
+    "code": "/\\S/",
+    "description": "match non whitespace character",
+    "examples": []
+  },
+  {
+    "idx": 49,
+    "code": "binmode$~,utf8;\nbinmode STDIN,utf8;",
+    "description": "utf8 stuff",
+    "examples": [
+      {
+        "stdin": "🦋❤️",
+        "code": "binmode$~,utf8;\nbinmode STDIN,utf8;\n\n$S = <>;\n@S = $S =~ /./g;\nprint $S[0]",
+        "stdout": "🦋",
+        "links": []
+      },
+      {
+        "stdin": "🦋❤️",
+        "code": "binmode STDIN,utf8;\n\n$S = <>;\n@S = $S =~ /./g;\n\nprint $S[0]",
+        "stdout": "🦋",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 50,
+    "code": "do {}",
+    "description": "do block (advanced ternary)",
+    "examples": [
+      {
+        "stdin": "1\n4pr\nprint\n3int\n6rint",
+        "code": "# if else is too long\n/pri/ ? do {print int, $/ for @A} : push @A, $_ for <>",
+        "stdout": "1\n4\n1\n4\n3\n6",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 51,
+    "code": "$A[@A]",
+    "description": "push to list @A and return",
+    "examples": [
+      {
+        "stdin": "5\n3\n12\n3\n3\n4",
+        "code": "print $A[@A] = grep($_ == $A[-1], @A), $/ for <>",
+        "stdout": "0\n1\n1\n2\n1\n3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 52,
+    "code": "use bignum",
+    "description": "disables scientific notation and you can use decimals too (very slow)",
+    "examples": []
+  },
+  {
+    "idx": 53,
+    "code": "use bigint",
+    "description": "like `use integer` but disables scientific notation (slow)",
+    "examples": []
+  },
+  {
+    "idx": 54,
+    "code": "use integer",
+    "description": "makes everything an integer and makes bitwise operators work on negative numbers",
+    "examples": []
+  },
+  {
+    "idx": 55,
+    "code": "\"$N\"",
+    "description": "use the value of $N before modification in the same expression",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$N = 3;\nprint \"$N\" + ($N += 3)",
+        "stdout": "9",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"$_\n\" x (s/.(??{$& + 1})//g > 1) for 1..2301",
+        "stdout": "1201\n1212\n1223\n1234\n1245\n1256\n1267\n1278\n1289\n2301",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 56,
+    "code": "$A ? chicken : onion",
+    "description": "ternary with bareword branches",
+    "examples": [
+      {
+        "stdin": "3-5\n2-\n4",
+        "code": "print /^\\d-\\d/ ? chicken : onion, $/ for <>",
+        "stdout": "chicken\nonion\nonion",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 57,
+    "code": "use 5.01",
+    "description": "say support",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "use 5.01;\nsay \"bruh\";\nsay \"bruh\";",
+        "stdout": "bruh\nbruh",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 58,
+    "code": "<\"@A {1,2,3}\\n\">",
+    "description": "glob with string interpolation",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1, 5);\nprint <\"@A {1,2,3} {1,2,3}\\n\">",
+        "stdout": "1 5 1 1\n1 5 1 2\n1 5 1 3\n1 5 2 1\n1 5 2 2\n1 5 2 3\n1 5 3 1\n1 5 3 2\n1 5 3 3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = (1, 5);\nprint \"\" . <\"@A {1,2,3} {1,2,3}\\n\"> for 1..3",
+        "stdout": "1 5 1 1\n1 5 1 2\n1 5 1 3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 59,
+    "code": "do $0",
+    "description": "file recursion",
+    "examples": [
+      {
+        "stdin": "5\nchickenfinger",
+        "code": "#!perl -lp\ny///c < 10 and $_ .= \"bruh\", do $0",
+        "stdout": "5bruhbruhbruh\nchickenfinger",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 60,
+    "code": "*{$S}",
+    "description": "typeglob variable variable",
+    "examples": [
+      {
+        "stdin": "50",
+        "code": "$n = <>;\n\n# this is cursed lol\n*{$n % $_} = \\($1 + 1) for 1..$n;\nprint $1",
+        "stdout": "11",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 61,
+    "code": "$0",
+    "description": "name of the current file",
+    "examples": [
+      {
+        "stdin": "50",
+        "code": "$n = <>;\n${$n % -$_}++ for 1..$n;\nprint $0",
+        "stdout": "6",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 62,
+    "code": "$.",
+    "description": "amount of lines read",
+    "examples": [
+      {
+        "stdin": "5",
+        "code": "$n = <>;\n$. *= $_ for 1..$n;\nprint $.",
+        "stdout": "120",
+        "links": []
+      },
+      {
+        "stdin": "chicken\nand\nfish",
+        "code": "# <> in list context consumes all at once\n/.*/, print $& x $.--, $/ for <>",
+        "stdout": "chickenchickenchicken\nandand\nfish",
+        "links": []
+      },
+      {
+        "stdin": "chicken\nand\nfish",
+        "code": "#!perl -lp\n$_ x= $. # works with -p too",
+        "stdout": "chicken\nandand\nfishfishfish",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 63,
+    "code": "$+",
+    "description": "last paren match in regex",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"xX_chicken_Xx\"\ns/(X)|x/print \"[$+]\\n\"/ge;",
+        "stdout": "[]\n[X]\n[X]\n[]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 64,
+    "code": "perl -M",
+    "description": "bash module import",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "perl -MList::Util=max,uniq -e 'print max 1,2,3'",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 65,
+    "code": "use DateTime",
+    "description": "date time stuff",
+    "examples": []
+  },
+  {
+    "idx": 66,
+    "code": "#!perl -lp\npush @B, $_} for (@B) {",
+    "description": "eskimo greeting to print newline seperated array (-l sets $/ to \"\\n\")",
+    "examples": []
+  },
+  {
+    "idx": 67,
+    "code": "~~($S =~ s/bruh .//g)",
+    "description": "count the amount of match in $S (will mutate)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"wower\";\nprint ~~s/[aeiou]//gi",
+        "stdout": "2",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"wower\";\nprint s/[aeiou]//gi # dont need inchworm if definite non zero or cast to int later",
+        "stdout": "2",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 68,
+    "code": "y%%%",
+    "description": "transliterate with another delimiter so you can use '/' without escaping",
+    "examples": []
+  },
+  {
+    "idx": 69,
+    "code": "s!!!",
+    "description": "substitute with another delimiter so you can use '/' without escaping",
+    "examples": []
+  },
+  {
+    "idx": 70,
+    "code": "$= = $N",
+    "description": "max of 0 and $N (if $N is an integer or you want to cast anyway)",
+    "examples": []
+  },
+  {
+    "idx": 71,
+    "code": "*A = [1,2,3]",
+    "description": "typeglob dereference (will alias so be careful)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$B = [1, 2, 3];\n*A = $B;\n$A[0]++;\nprint \"@$B\" # modification of $B indirectly",
+        "stdout": "2 2 3",
+        "links": []
+      },
+      {
+        "stdin": "[1, 2, 3]",
+        "code": "*A = eval <>;\nprint \"@A\"",
+        "stdout": "1 2 3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 72,
+    "code": "join qw(a 1 2 3)",
+    "description": "join on the first value the rest of the values",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print join qw(a 1 2 3)",
+        "stdout": "1a2a3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 73,
+    "code": "m??",
+    "description": "falsy on first ever iteration of block (idk how it works lol)",
+    "examples": [
+      {
+        "stdin": "chicken",
+        "code": "#!perl -l\ns/(.)(.*)/$2$1/, m?? || print for (<>) x 5",
+        "stdout": "ickench\nckenchi\nkenchic\nenchick",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "sub F {\n  $A = $i = 0;\n  {\n    $j = $B = 0;\n    m?? || do {\n      print \"***$A***\";\n      {\n        m?? || print \"[$B]\"; # only skips on first ever enter\n        $B++;\n        $j++ < 3 && redo\n      } \n    };\n    $A++;\n    $i++ < 3 && redo\n  }\n  print \"\\n\";\n}\n\nF;\nF;",
+        "stdout": "***1***[1][2][3]***2***[0][1][2][3]***3***[0][1][2][3]\n***0***[0][1][2][3]***1***[0][1][2][3]***2***[0][1][2][3]***3***[0][1][2][3]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 74,
+    "code": "split /\\./, $S",
+    "description": "must use // or '' to split $S on special regex chars (or double escape if you really need to \"\\\\.\")",
+    "examples": []
+  },
+  {
+    "idx": 75,
+    "code": "exp $N",
+    "description": "e to the power of $N",
+    "examples": []
+  },
+  {
+    "idx": 76,
+    "code": "atan2 $N",
+    "description": "arctan / tan^-1 of $N (in radians)",
+    "examples": []
+  },
+  {
+    "idx": 77,
+    "code": "use POSIX qw(strftime);\n\n# https://metacpan.org/pod/POSIX::strftime::GNU\nstrftime \"%Y:%m:%d - %H:%M:%S\"",
+    "description": "convert number to time string",
+    "examples": []
+  },
+  {
+    "idx": 78,
+    "code": "($second, $minute, $hour, $month_day, $month, $year, $week_day, $year_day) = gmtime 91273",
+    "description": "convert number to time list",
+    "examples": []
+  },
+  {
+    "idx": 79,
+    "code": "~~gmtime 91273",
+    "description": "convert number to time string",
+    "examples": []
+  },
+  {
+    "idx": 80,
+    "code": "$N |= /\\d/",
+    "description": "one time variable toggle for $N",
+    "examples": [
+      {
+        "stdin": "299",
+        "code": "$N |= /3/ and $- += $_ for 1..<>;\nprint $-",
+        "stdout": "12",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 81,
+    "code": "s///regex",
+    "description": "return execute global execute e(x)cess-whitespace (joke entry)",
+    "examples": [
+      {
+        "stdin": "a\nb4by go w8937283",
+        "code": "$s = <>;\n$_ = <>;\ns/\\d/\"y!$&!a!\"/regex;\nprint",
+        "stdout": "baby go waaaaaaa",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 82,
+    "code": "s///ee",
+    "description": "double eval replacement",
+    "examples": [
+      {
+        "stdin": "a\nb4by go w8937283",
+        "code": "$s = <>;\n$_ = <>;\ns/\\d/\"y!$&!a!\"/gree;\nprint",
+        "stdout": "baby go waaaaaaa",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 83,
+    "code": "/\\K/",
+    "description": "store match right of \\K into $& (append left match to $`)",
+    "examples": [
+      {
+        "stdin": "-ad\n-3c\n-ca\n-2b",
+        "code": "/\\d\\K./ and print \"$`|$&\n\" for <>",
+        "stdout": "-3|c\n-2|b",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 84,
+    "code": "s'@A''",
+    "description": "substitute without interpolating",
+    "examples": []
+  },
+  {
+    "idx": 85,
+    "code": "($N) = @A",
+    "description": "set $N to the first element of @A",
+    "examples": []
+  },
+  {
+    "idx": 86,
+    "code": "($A, $B, @B) = @A",
+    "description": "unpack list @A into $A (first elem), $B (second elem), and @B (rest)",
+    "examples": []
+  },
+  {
+    "idx": 87,
+    "code": "$^H",
+    "description": "256 (unsigned 32 bit integer $\\x08)",
+    "examples": []
+  },
+  {
+    "idx": 88,
+    "code": "$^D",
+    "description": "0 (unsigned 32 bit integer $\\x04)",
+    "examples": [
+      {
+        "stdin": "++++++-------++",
+        "code": "\nprint + (0, \"*\", 1..5)[$^D += $_.1] // &: for <>=~/./g",
+        "stdout": "*123454321*0",
+        "links": [
+          "http://golf.shinh.org/reveal.rb?rad+math/Sisyphus_1673174109&pl"
+        ]
+      }
+    ]
+  },
+  {
+    "idx": 89,
+    "code": "$^E",
+    "description": "0 in numerical context (signed 32 bit integer $\\x05)",
+    "examples": []
+  },
+  {
+    "idx": 90,
+    "code": "$^F",
+    "description": "2 (on anagol you can use $\\x06 (2 bytes))",
+    "examples": []
+  },
+  {
+    "idx": 91,
+    "code": "${ \\(1 + 1) }",
+    "description": "regex / string interpolate the expression `1 + 1` as a scalar",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "sub F {\n  \"w\"\n}\n\n$_ = \"wow\";\nprint /${\\F}/ ? \"yes\" : \"no\" # can omit brackets depending on precedence",
+        "stdout": "yes",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"bruh ${\\(3 + 3)} 123\" # just use baby cart for most cases",
+        "stdout": "bruh 6 123",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "sub F {\n  3 + pop\n}\n\nprint \"bruh ${\\F 3} 123\"",
+        "stdout": "bruh 6 123",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 92,
+    "code": "@{{@A}}{@B}\n# %H = @A; @H{@B}",
+    "description": "create hash reference from @A and grab @B values in list context",
+    "examples": []
+  },
+  {
+    "idx": 93,
+    "code": "{@A}->{$K}\n# %H = @A; $H{$K}",
+    "description": "create a hash reference from list @A and grab the value at key $K",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1,2,3,4);\n$K = 3;\nprint + {@A}->{$K}",
+        "stdout": "4",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 94,
+    "code": "@H{@A}",
+    "description": "return values of %H at each key of @A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "%H = (1 => 2, 5 => 6, 3 => \"we\");\n@A = (1, 3, 5);\nprint join $\", @H{@A}",
+        "stdout": "2 we 6",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 95,
+    "code": "%H{@A}",
+    "description": "return key value pairs of %H for each item in @A as a single list",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "%H = (1 => 2, 5 => 6, 3 => \"we\");\n@A = (1, 3, 5);\nprint join $\", %H{@A}",
+        "stdout": "1 2 3 we 5 6",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 96,
+    "code": "print /(\\d+) (\\d+)/ && chr($1+$2) . $/ for<>",
+    "description": "use regex to skip non matching lines (usually not shorter)",
+    "examples": []
+  },
+  {
+    "idx": 97,
+    "code": "INIT {<>}",
+    "description": "skip the first line in -p or -n",
+    "examples": [
+      {
+        "stdin": "3\n1\n2\n3",
+        "code": "#!perl -lp\nINIT {$n = <>} $_ *= $n ",
+        "stdout": "3\n6\n9",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 98,
+    "code": "<> =~ $/",
+    "description": "store input without newline into $`",
+    "examples": [
+      {
+        "stdin": "a\nb",
+        "code": "<> =~ $/;\nprint \"[$`]\"",
+        "stdout": "[a]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 99,
+    "code": "$H{$i, $j}",
+    "description": "multi dimensional \"list\"",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "for $i (0..5) {\n  for $j (0..5) {\n    $H{$i, $j} = $i * $j;\n  }\n}\nprint $H{3, 3}",
+        "stdout": "9",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 100,
+    "code": "keys @A",
+    "description": "list of indices of @A (0 .. $#A)",
+    "examples": []
+  },
+  {
+    "idx": 101,
+    "code": "values %H",
+    "description": "values of %H (unordered)",
+    "examples": []
+  },
+  {
+    "idx": 102,
+    "code": "keys %H",
+    "description": "keys of %H (unordered)",
+    "examples": []
+  },
+  {
+    "idx": 103,
+    "code": "\"@A\" + 0",
+    "description": "print the first element in @A (only for number list)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (2, 2, 3);\nprint 1 / \"@A\"",
+        "stdout": "0.5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 104,
+    "code": "~~<{1,2}{_}{1,2}>",
+    "description": "glob iterator",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1,2);\nprint \"chicken\" . <{1,23}{_}{1,5}>, $/ for @A",
+        "stdout": "chicken1_1\nchicken1_5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 105,
+    "code": "unpack \"x$N\", $S",
+    "description": "skip $N characters from string $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print join $/, unpack \"C2x2C\", \"chicken\"",
+        "stdout": "99\n104\n107",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print join $/, map chr, unpack \"C2x2C\", \"chicken\"",
+        "stdout": "c\nh\nk",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 106,
+    "code": "sort {length($a) - length($b) || $b cmp $a} @A",
+    "description": "sort list @A by multiple predicate (left to right)",
+    "examples": []
+  },
+  {
+    "idx": 107,
+    "code": "sort {@$a[0] - @$b[0]} @A",
+    "description": "sort list of list references @A by the first element",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "use Data'Dumper;\n@A = ([1,43,3], [5,3,2], [123,12,4]);\nprint Dumper sort {@$a[0] - @$b[0]} @A",
+        "stdout": "$VAR1 = [\n          1,\n          43,\n          3\n        ];\n$VAR2 = [\n          5,\n          3,\n          2\n        ];\n$VAR3 = [\n          123,\n          12,\n          4\n        ];",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 108,
+    "code": "<a b   c   >",
+    "description": "qw but with glob (can interpolate in list context)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$i = 3;\nprint for <$i 3>",
+        "stdout": "33",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = (\" nice\", \"   chic ken\", \"br o\");\nprint \"[$_]\" for <@A>",
+        "stdout": "[nice][chic][ken][br][o]",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = (\" nice\", \"   chic ken\", \"br o\");\nprint <@A> . $/;",
+        "stdout": "nice",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"[$_]\" for <{1,2}{1}>",
+        "stdout": "[11][21]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 109,
+    "code": "qw(  a   b  c)",
+    "description": "quote words: split raw string on whitespace /\\s+/",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$c = \"bruh\";\nprint join $/, qw(a $c)",
+        "stdout": "a\n$c",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print join $/, map length, qw(the chicken be with you)",
+        "stdout": "3\n7\n2\n4\n3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 110,
+    "code": "pack \"W*\", @A",
+    "description": "convert ascii code list @A to string",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (97, 98, 99);\nprint pack \"C*\", @A ",
+        "stdout": "abc",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 111,
+    "code": "eval join \"+\", $S =~ /\\d+/g",
+    "description": "sum of the numbers in string $S",
+    "examples": [
+      {
+        "stdin": "31 1\n1 2 2",
+        "code": "print eval(join \"+\", /\\d+/g), $/ for <>",
+        "stdout": "32\n5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 112,
+    "code": "[] + 0",
+    "description": "big number when cast to number",
+    "examples": []
+  },
+  {
+    "idx": 113,
+    "code": "@{$S}",
+    "description": "list variable variable",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@0 = (1,2,3);\nprint @{map 1, 1..0} # scalar of empty map == 0",
+        "stdout": "123",
+        "links": []
+      },
+      {
+        "stdin": "a\nc\nb",
+        "code": "chomp, @$_ = $_ x ++$i for <>;\nprint @$_ for a..z",
+        "stdout": "abbbcc",
+        "links": []
+      },
+      {
+        "stdin": "[1,2,3]",
+        "code": "print join $/, @{eval <>}",
+        "stdout": "1\n2\n3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 114,
+    "code": "$#{$S}",
+    "description": "dollactothorp variable variable",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = \"wow\";\n@wow = (1,2,3);\nprint $#$A # can omit the brackets with only one statement",
+        "stdout": "2",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@wow = (1,2,3);\nprint $#{\"w\" . \"o\" . \"w\"}",
+        "stdout": "2",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 115,
+    "code": "$N > 1 && 1 == grep $' % $_ < 1, $N =~ // .. sqrt $N\n# $_>1&&1==grep$'%$_<1,//..sqrt\n# 1==grep$'%$_<1,//..sqrt (includes 1)",
+    "description": "check if $N is prime O(sqrt N)",
+    "examples": []
+  },
+  {
+    "idx": 116,
+    "code": "$A eq $B",
+    "description": "check if string $A equals string $B",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = \"32\";\n$B = \"32\\n\";\nprint $A eq $B ? \"yes\" : \"no\"",
+        "stdout": "no",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 117,
+    "code": "$A ne $B",
+    "description": "check if string $A does not equal string $B",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = \"32\";\n$B = \"32\\n\";\nprint $A ne $B ? \"yes\" : \"no\"",
+        "stdout": "yes",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 118,
+    "code": "$A cmp $B",
+    "description": "compare string $A to string $B by ascii codes (less -1, equal 0, greater 1)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = \"32\";\n$B = \"32\\n\";\nprint $A cmp $B",
+        "stdout": "-1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 119,
+    "code": "unpack \"%B*\", pack I, $N",
+    "description": "count amount of ones in binary representation of $N (pop count)",
+    "examples": []
+  },
+  {
+    "idx": 120,
+    "code": "getc",
+    "description": "get a single char from stdin",
+    "examples": [
+      {
+        "stdin": "abc",
+        "code": "print $_ . \"e\" while $_ = getc",
+        "stdout": "aebece",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 121,
+    "code": "++$_ for ($-) x 9",
+    "description": "local value of $_ that persists in each loop iteration (must have lvalue in the singleton list)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "++$_ for ($i = 3) x 9;\nprint $i # modifies lvalue value",
+        "stdout": "9",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"chicken\";\nprint ++$_, $/ for ($-) x 5;\nprint",
+        "stdout": "1\n2\n3\n4\n5\nchicken",
+        "links": []
+      },
+      {
+        "stdin": "5",
+        "code": "print ++$_ for (<>) x 5",
+        "stdout": "6\n7\n8\n9\n10",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print $_ .= \"e\", $/ for ($x) x 5",
+        "stdout": "e\nee\neee\neeee\neeeee",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 122,
+    "code": "int $N",
+    "description": "cast $N to integer",
+    "examples": [
+      {
+        "stdin": "1\n2\n3",
+        "code": "print int for <>",
+        "stdout": "123",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 123,
+    "code": "printf @A",
+    "description": "print the first element of @A",
+    "examples": [
+      {
+        "stdin": "12\n34",
+        "code": "printf $x, /.*/, $x .= $& for <>",
+        "stdout": "121234",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 124,
+    "code": "$;",
+    "description": "multi dimensional hash seperator",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$; = \"a\";\n$H{1,2,3} = 1;\nprint $H{\"1a2a3\"}",
+        "stdout": "1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 125,
+    "code": "$,",
+    "description": "\"\" (output field seperator)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$, = \",\";\n@A = (1, 2, 3);\nprint @A",
+        "stdout": "1,2,3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$, = \",\";\n@A = (1, 2, 3);\nprint 1, @A, 5",
+        "stdout": "1,1,2,3,5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 126,
+    "code": "$\\",
+    "description": "\"\" (output record seperator)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$\\ = \"wow\";\nprint",
+        "stdout": "wow",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$\\ = \"wow\";\nprint \"e\"",
+        "stdout": "ewow",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"1\";\n$\\ = \"wow\";\nprint",
+        "stdout": "1wow",
+        "links": []
+      },
+      {
+        "stdin": "1\n2",
+        "code": "$\\ += $_ * 3 for <>;\nprint",
+        "stdout": "9",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 127,
+    "code": "$\"",
+    "description": "\" \" (list seperator)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1,2,3);\n$\" = \"+\";\nprint \"@A\"",
+        "stdout": "1+2+3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 128,
+    "code": "$a $b",
+    "description": "sorting variables (dont use elsewhere unless you know what you are doing) ",
+    "examples": []
+  },
+  {
+    "idx": 129,
+    "code": "$/",
+    "description": "\"\\n\" (input record seperator)",
+    "examples": [
+      {
+        "stdin": "1+2+3",
+        "code": "$/ = \"+\";\nprint \"[$_]\" for <>",
+        "stdout": "[1+][2+][3]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 130,
+    "code": "$%",
+    "description": "0",
+    "examples": []
+  },
+  {
+    "idx": 131,
+    "code": "$-",
+    "description": "0 (always casts to non negative integer)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$- -= 1;\nprint $-",
+        "stdout": "0",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print + ($- += 3) /= 2",
+        "stdout": "1",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print $- = 3 / 2",
+        "stdout": "1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 132,
+    "code": "$=",
+    "description": "60 (always casts to integer)",
+    "examples": []
+  },
+  {
+    "idx": 133,
+    "code": "$^T",
+    "description": "big number (seconds since epoch on program run)",
+    "examples": []
+  },
+  {
+    "idx": 134,
+    "code": "++$N",
+    "description": "pre increment $N",
+    "examples": []
+  },
+  {
+    "idx": 135,
+    "code": "$N++",
+    "description": "post increment $N\n$N--",
+    "examples": []
+  },
+  {
+    "idx": 136,
+    "code": "--$N",
+    "description": "pre decrement $N",
+    "examples": []
+  },
+  {
+    "idx": 137,
+    "code": "}{",
+    "description": "eskimo greeting: end block for -p -n -a -F",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "#!perl -p\n$code_a }{ $code_b\n==============================\n# equivalent to\nwhile ($_ = <>) {\n  $code_a\n}{\n  $code_b\n;; # double semicolon on next line significant on codingame >:(\n  print\n}",
+        "links": []
+      },
+      {
+        "stdin": "5\n10",
+        "code": "#!perl -p\n$\\ += $_ * 2 }{",
+        "stdout": "30",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 138,
+    "code": "length $S",
+    "description": "length of scalar $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"chicken\";\nprint length $S",
+        "stdout": "7",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"chicken\";\nprint length\nooo",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 139,
+    "code": "$_",
+    "description": "default var",
+    "examples": []
+  },
+  {
+    "idx": 140,
+    "code": "$S =~ m//",
+    "description": "match $S on regex",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"my Man\";\nprint $S =~ /M/ # can omit m if you use / as delim",
+        "stdout": "1",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"my Man\";\nprint /M/ # can omit =~ if you use default var $_ ",
+        "stdout": "1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 141,
+    "code": "\"${S}\"",
+    "description": "iterpolate $S with alphanumeric char after",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = 3;\nprint \"${S}bruh\"",
+        "stdout": "3bruh",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$% = $^ = $, = 3;\nprint \"$%bruh $^bruh $,bruh\" # not needed for symbol vars",
+        "stdout": "3bruh 3bruh 3bruh",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 142,
+    "code": "$S =~ /(.)(.)(?{print \"$1 $2\\n\"})^/",
+    "description": "iterate over each consecutive char pair",
+    "examples": []
+  },
+  {
+    "idx": 143,
+    "code": "chop $S",
+    "description": "remove last char from $S and return it",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"bruh\\n\";\nprint \"[\", chop $S, \"]\"",
+        "stdout": "[\n]",
+        "links": []
+      },
+      {
+        "stdin": "bruh",
+        "code": "$_ = <>;\nprint \"$z$_\n\" while $z = chop",
+        "stdout": "hbru\nubr\nrb\nb",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 144,
+    "code": "@A[@B]",
+    "description": "@A at all indices of @B",
+    "examples": []
+  },
+  {
+    "idx": 145,
+    "code": "$H{$K}",
+    "description": "%H at key $K (return the value value)",
+    "examples": []
+  },
+  {
+    "idx": 146,
+    "code": "$A[$N]",
+    "description": "@A at index $N (dont use @A[$N] unless you know what you are doing)",
+    "examples": []
+  },
+  {
+    "idx": 147,
+    "code": "[@A] ~~ [@B]",
+    "description": "check if @A smart matches with @B",
+    "examples": []
+  },
+  {
+    "idx": 148,
+    "code": "$N ~~ @A",
+    "description": "check if $N smart matches the last element of @A",
+    "examples": []
+  },
+  {
+    "idx": 149,
+    "code": "$N ~~ [@A]",
+    "description": "check if $N smart matches any element of @A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$N = 3;\n@A = (1, 4, 3);\n\nprint eval q($N ~~ [@A])",
+        "stdout": "1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 150,
+    "code": "$N / .0174532925199432957692369\n# $N * 180 / 3.14159",
+    "description": "convert from radians to degrees (feel free to chop some digits)",
+    "examples": []
+  },
+  {
+    "idx": 151,
+    "code": "use Math'Trig;\nrad2deg($N)",
+    "description": "convert $N from radians to degrees",
+    "examples": []
+  },
+  {
+    "idx": 152,
+    "code": "$N * .0174532925199432957692369\n# $N * 3.14159 / 180",
+    "description": "convert $N from degrees to radians (feel free to chop some digits)",
+    "examples": []
+  },
+  {
+    "idx": 153,
+    "code": "use Math'Trig;\ndeg2rad($N)",
+    "description": "convert $N from degrees to radians",
+    "examples": []
+  },
+  {
+    "idx": 154,
+    "code": "sin ($N) / cos ($N)",
+    "description": "tan of $N (in radians)",
+    "examples": []
+  },
+  {
+    "idx": 155,
+    "code": "cos ($N)",
+    "description": "cos of $N (in radians)",
+    "examples": []
+  },
+  {
+    "idx": 156,
+    "code": "sin $N",
+    "description": "sin of $N (in radians)",
+    "examples": []
+  },
+  {
+    "idx": 157,
+    "code": "log $N",
+    "description": "log base e of $N",
+    "examples": []
+  },
+  {
+    "idx": 158,
+    "code": "log($N) / log($B)",
+    "description": "log base $B of $N",
+    "examples": []
+  },
+  {
+    "idx": 159,
+    "code": "$S =~ / \\S+/",
+    "description": "split $S into 3 numbers $` $& $'",
+    "examples": [
+      {
+        "stdin": "1 2 3\n4 5 6",
+        "code": "/ \\S+/, print $` * $& + $', $/ for <>",
+        "stdout": "5\n26",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 160,
+    "code": "\"\\u\\L$S\\E\"",
+    "description": "uppercase first char of $S, lowercase rest",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$s = \"cHickeN\";\nprint \"\\u\\L$S\" # can omit \\E if nothing else",
+        "stdout": "Chicken",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = \"cHickeN-finger and toast\";\nprint s/\\w+/\\u\\L$&/gr;",
+        "stdout": "Chicken-Finger And Toast",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 161,
+    "code": "\"\\U$S\\E\"",
+    "description": "uppercase string $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"wow\";\nprint \"\\U$S\" # can omit \\E if nothing else",
+        "stdout": "WOW",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 162,
+    "code": "\"\\L$S\\E\"",
+    "description": "lowercase string $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"WOW\";\nprint \"\\L$S\" # can omit \\E if nothing else",
+        "stdout": "wow",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 163,
+    "code": "\"\\l$S\"",
+    "description": "lowercase first character of $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"AWOW123\";\nprint s/[a-o]/\\l$&/gr",
+        "stdout": "aWoW123",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 164,
+    "code": "\"\\u$S\"",
+    "description": "uppercase first character of $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"awow123\";\nprint s/[a-o]/\\u$&/gr",
+        "stdout": "AwOw123",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 165,
+    "code": "lc $S",
+    "description": "lowercase string $S",
+    "examples": []
+  },
+  {
+    "idx": 166,
+    "code": "uc $S",
+    "description": "uppercase string $S",
+    "examples": []
+  },
+  {
+    "idx": 167,
+    "code": "/\\PL/",
+    "description": "match non alphabetic character",
+    "examples": []
+  },
+  {
+    "idx": 168,
+    "code": "/\\pL/",
+    "description": "match alphabetic character",
+    "examples": []
+  },
+  {
+    "idx": 169,
+    "code": "sprintf \"%0$^d\", $S",
+    "description": "format $S with variable $^ length padding",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$a = 3;\nprintf \"%0${a}d\", 50",
+        "stdout": "050",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$^ = 3;\nprintf \"%0$^d\", 50",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 170,
+    "code": "$S =~ / /",
+    "description": "store prematch into $` and postmatch into $'",
+    "examples": [
+      {
+        "stdin": "1 632\n2 5",
+        "code": "/ /, print $` * ($' + 1), $/ for <>",
+        "stdout": "633\n12",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 171,
+    "code": "split $\", `dd`",
+    "description": "split all input on $\"",
+    "examples": []
+  },
+  {
+    "idx": 172,
+    "code": "glob `dd`",
+    "description": "glob all input",
+    "examples": []
+  },
+  {
+    "idx": 173,
+    "code": "split $/, `dd`",
+    "description": "split all input on $/",
+    "examples": [
+      {
+        "stdin": "a\nb\nc",
+        "code": "print join \"+\", split $/, `dd`",
+        "stdout": "a+b+c",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 174,
+    "code": "chomp(@A = <>)",
+    "description": "split <> on $/ into @A and remove delimiter from the end of each string",
+    "examples": [
+      {
+        "stdin": "1\n2\n3",
+        "code": "chomp(@A = <>);\nprint join \"+\", @A",
+        "stdout": "1+2+3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 175,
+    "code": "$S =~ /.*/",
+    "description": "store $S without newline into $&",
+    "examples": [
+      {
+        "stdin": "a\nb\nc",
+        "code": "/.*/, print $& for <>",
+        "stdout": "abc",
+        "links": []
+      },
+      {
+        "stdin": "54 fish\n32 chicken",
+        "code": "/ (.*)/, $H{$1} = $` for <>;\nprint join $/, sort {$H{$a} - $H{$b}} keys %H",
+        "stdout": "chicken\nfish",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 176,
+    "code": "\\%H{@A}",
+    "description": "store unique keys into %H (unordered)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1, 1, 4, 5);\n\\%H{@A};\nprint ~~%H",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 177,
+    "code": "`tr`",
+    "description": "transliterate / translate all input",
+    "examples": []
+  },
+  {
+    "idx": 178,
+    "code": "`tac`",
+    "description": "reverse all lines in input",
+    "examples": []
+  },
+  {
+    "idx": 179,
+    "code": "`rev`",
+    "description": "reverse all input",
+    "examples": []
+  },
+  {
+    "idx": 180,
+    "code": "`sort`",
+    "description": "bash sort all lines in input",
+    "examples": []
+  },
+  {
+    "idx": 181,
+    "code": "`factor`",
+    "description": "prime factorization each input line",
+    "examples": []
+  },
+  {
+    "idx": 182,
+    "code": "${\\sort @A}",
+    "description": "max of list (string sort)",
+    "examples": []
+  },
+  {
+    "idx": 183,
+    "code": "${\\sort {$a-$b} @A}",
+    "description": "max of list @A (numerical sort) (use <=> for large values)",
+    "examples": []
+  },
+  {
+    "idx": 184,
+    "code": "${\\sort {$b-$a} @A}",
+    "description": "min of list @A (numerical sort) (use <=> for large values)",
+    "examples": []
+  },
+  {
+    "idx": 185,
+    "code": "\\@B[@A]",
+    "description": "store max value of list @A into $#B (no negative) (do not modify $#B or @B after)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1, 2, 32342);\n\\@B[@A];\nprint $#B",
+        "stdout": "32342",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 186,
+    "code": "[]",
+    "description": "list reference (nested list)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = [1];\nprint join $/, @$A",
+        "stdout": "1",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$A = [[1, 4], 3];\nprint join $/, @{@$A[0]}",
+        "stdout": "1\n4",
+        "links": []
+      },
+      {
+        "stdin": "5\n4",
+        "code": "$H{$_} = [$_ + 1, $_ - 1] for <>;\nprint join $/, @{$H{5}}",
+        "stdout": "6\n4",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 187,
+    "code": "@{$A}",
+    "description": "convert a list reference $A to a list",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = [1];\nprint join $/, @$A # can omit {} if just var",
+        "stdout": "1",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$A = [[1, 4], 3];\nprint join $/, @{@$A[0]}",
+        "stdout": "1\n4",
+        "links": []
+      },
+      {
+        "stdin": "5\n4",
+        "code": "$H{$_} = [$_ + 1, $_ - 1] for <>;\nprint join $/, @{$H{5}}",
+        "stdout": "6\n4",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 188,
+    "code": "$$A",
+    "description": "double variable $$A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = \"chicken\";\n$$A = 3;\nprint $chicken",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$A = \"chick\";\n${$A . \"en\"} = 3;\nprint $chicken",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "a\nb\nd",
+        "code": "++$$_ for split $/, `dd`;\nprint $$_ + 0, $/ for a..d",
+        "stdout": "1\n1\n0\n1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 189,
+    "code": "\"@+\" + 0",
+    "description": "get the index + length of the match",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"wow\";\n/ow/;\nprint \"@+\" + 0",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 190,
+    "code": "\"@-\" + 0",
+    "description": "get the index of the match",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"wow\";\n/ow/;\nprint \"@-\" + 0",
+        "stdout": "1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 191,
+    "code": "until",
+    "description": "while loop until condition is false",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$n = 32;\n# $- += $n * 3, $n /= 2 while $n >= 5;\n$- += $n * 3, $n /= 2 until $n < 5; \nprint $-",
+        "stdout": "168",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 192,
+    "code": "while",
+    "description": "while loop",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$n = 32;\nwhile ($n > 5) {\n  $- += $n * 3;\n  $n /= 2 \n}\nprint $-",
+        "stdout": "168",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$n = 32;\n$- += $n * 3, $n /= 2 while $n > 5; # one line while\nprint $-",
+        "stdout": "168",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 193,
+    "code": "sprintf \"%.2f\", $N + .0049",
+    "description": "ceil $N to 2 decimal places",
+    "examples": []
+  },
+  {
+    "idx": 194,
+    "code": "sprintf \"%.2f\", $N - .0049",
+    "description": "floor $N to 2 decimal places",
+    "examples": []
+  },
+  {
+    "idx": 195,
+    "code": "sprintf \"%.2f\", $N",
+    "description": "round $N to 2 decimal places",
+    "examples": []
+  },
+  {
+    "idx": 196,
+    "code": "--$|",
+    "description": "flip flop expression",
+    "examples": [
+      {
+        "stdin": "1\n2\n3",
+        "code": "--$| ? $- += $_ : print $-, $/ for <>",
+        "stdout": "2",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 197,
+    "code": "${+uc}",
+    "description": "evaulate inner function on $_ rather than bareword",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"neat\";\n${+uc} = $_;\nprint $NEAT",
+        "stdout": "neat",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 198,
+    "code": "use Data'Dumper;\nprint Dumper",
+    "description": "debug print",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "use Data::Dumper;\n\n@A = qw(a b c);\nprint Dumper @A",
+        "stdout": "$VAR1 = 'a';\n$VAR2 = 'b';\n$VAR3 = 'c';",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "use Data::Dumper;\n\n@A = qw(a b c);\nprint Dumper \\@A # array reference",
+        "stdout": "$VAR1 = [\n          'a',\n          'b',\n          'c'\n        ];",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 199,
+    "code": "print STDERR",
+    "description": "print text to stderr",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = qw(1 2 3);\nprint STDERR \"hi\", @A",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 200,
+    "code": "print + nice, 3",
+    "description": "use + to print bareword instead of trying to print at filehandle (must have something after)",
+    "examples": []
+  },
+  {
+    "idx": 201,
+    "code": "reverse @A ",
+    "description": "reverse @A as a list",
+    "examples": []
+  },
+  {
+    "idx": 202,
+    "code": "~~ reverse $S",
+    "description": "reverse $S as a scalar",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$S = \"fall\";\nprint ~~ reverse $S",
+        "stdout": "llaf",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$S = \"fall\";\nprint $S . reverse $S # dont need inchworm if you cast to scalar in other ways",
+        "stdout": "fallllaf",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 203,
+    "code": "-+- $S",
+    "description": "convert $S to a number (high precedence)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print -+- \"5bruh\" x 5",
+        "stdout": "55555",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 204,
+    "code": "print + (1 + 2), 3",
+    "description": "decrease function precedence with +",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$a = \"cool\";\n$b = \"beans\";\nprint substr + ($a .= \"a$b\"), 3",
+        "stdout": "labeans",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 205,
+    "code": "$S + 0",
+    "description": "convert $S to a number",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print \"34\" + 0",
+        "stdout": "34",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"   34bruh\" + 0",
+        "stdout": "34",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \" -34.5bruh\" + 0",
+        "stdout": "-34.5",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \" -.5bruh\" + 0",
+        "stdout": "-0.5",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"bruh\" + 0",
+        "stdout": "0",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"-    5bruh\" + 0",
+        "stdout": "0",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 206,
+    "code": "(1 x $N) !~ /^1?$|^(11+?)\\1+$/",
+    "description": "abigails regex: check if $N is prime",
+    "examples": []
+  },
+  {
+    "idx": 207,
+    "code": "2 == grep $' % $_ < 1, $N =~ // .. $N\n# 2==grep$'%$_<1,//..$_",
+    "description": "check if $N is prime",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print join $/, grep {2 == grep $' % $_ < 1, // .. $_} 1..10",
+        "stdout": "2\n3\n5\n7",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 208,
+    "code": "#!perl -l",
+    "description": "set $\\ to \"\\n\" by default or chr of octal number and chomp every input when paired with -p",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "#!perl -l40\nprint \"[3]\";\nprint \"[5]\"; # trailing space",
+        "stdout": "[3] [5] ",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "#!perl -l\nprint \"hi\";\nprint \"bruh\"",
+        "stdout": "hi\nbruh",
+        "links": []
+      },
+      {
+        "stdin": "they\nare\nmagically\ndelicious",
+        "code": "#!perl -lp\n$_ = \"[$_]\"",
+        "stdout": "[they]\n[are]\n[magically]\n[delicious]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 209,
+    "code": "#!perl -00",
+    "description": "paragraph mode (sets $/ to '' and reads input delimited by '\\n\\n')",
+    "examples": [
+      {
+        "stdin": "a\nchicken\n\nb",
+        "code": "#!perl -00\nuse Data::Dumper;\nprint Dumper <>;\nprint Dumper <>;",
+        "stdout": "$VAR1 = '5\n4weraer\n\n';\n$VAR2 = 'rwerawer\nawe';",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 210,
+    "code": "#!perl -0",
+    "description": "0 flag (sets $/ to '' or chr of octal number)",
+    "examples": [
+      {
+        "stdin": "a\nb\nc",
+        "code": "#!perl -0\nprint '[', <>, ']'",
+        "stdout": "[a\nb\nc]",
+        "links": []
+      },
+      {
+        "stdin": "32978349234 5 3",
+        "code": "#!perl -p040\n# -p flag and 040 => \" \"\n$_ = <> * <>",
+        "stdout": "15",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 211,
+    "code": "#!perl -a",
+    "description": "like -n but will also split the input on /\\s+/ and store into @F",
+    "examples": [
+      {
+        "stdin": "a   b c\nchicken  1 2       3",
+        "code": "#!perl -a\nprint \"[@F]\\n\"",
+        "stdout": "a b c\nchicken 1 2 3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 212,
+    "code": "#!perl -F",
+    "description": "like -n but will also split the input on // or custom regex and store into @F",
+    "examples": [
+      {
+        "stdin": "1 a\n2",
+        "code": "#!perl -F\nprint Dumper @F",
+        "stdout": "$VAR1 = '1';\n$VAR2 = ' ';\n$VAR3 = 'a';\n$VAR4 = '\n';\n$VAR1 = '2';",
+        "links": []
+      },
+      {
+        "stdin": "2awja5fe3\nzz2r3zz",
+        "code": "#!perl -F/\\D+/\nprint join(\",\", @F), $/",
+        "stdout": "1,5,3\n,2,3",
+        "links": []
+      },
+      {
+        "stdin": "2awja5fe3\nzz2r3zz",
+        "code": "#!perl -F\\D+\n# can omit the // if you dont have spaces in the regex\nprint join(\",\", @F), $/",
+        "stdout": "1,5,3\n,2,3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 213,
+    "code": "#!perl -p",
+    "description": "printing loop flag (shebang must be on first line)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "# equivalent code\nwhile ($_ = <>) {\nCODE\n;; # double semicolon on next line significant on codingame >:(\nprint \n}",
+        "links": []
+      },
+      {
+        "stdin": "ccHhiICckKEeNn\nwwwwow",
+        "code": "#!perl -p\ns/(.)\\1+/length($&) . $1/eg",
+        "stdout": "2cHhiICckKEeNn\n4wow",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "#!perl -p\n@; = qw(1 2 3);\n# remember that semicolon?\n$_ = @",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "1+1\n2+2\n3+5",
+        "code": "#!perl -p\n@; = sort {$b-$a} @;, eval }{ ($_) = @",
+        "stdout": "8",
+        "links": []
+      },
+      {
+        "stdin": "aa bruh\nbruhz",
+        "code": "#!perl -p\n# codingame inserts newline at and no re flags so very niche\ns;bruh;wow",
+        "stdout": "aa wow\n\nwow \nz",
+        "links": []
+      },
+      {
+        "stdin": "chicken\nfinger",
+        "code": "#!perl -p\n# ignores extra sub so bit more useful\ny;chi;ihc",
+        "stdout": "ihciken\nfcnger",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 214,
+    "code": "split",
+    "description": "split string on a delimiter (usually if glob doesn't work)",
+    "examples": [
+      {
+        "stdin": "a b c",
+        "code": "print join $/, split $\", <>",
+        "stdout": "a\nb\nc",
+        "links": []
+      },
+      {
+        "stdin": "a,b,c",
+        "code": "$_ = <>;\nprint join $/, split /,/ # implicit last argument $_",
+        "stdout": "a\nb\nc",
+        "links": []
+      },
+      {
+        "stdin": "a b c",
+        "code": "$_ = <>;\nprint join $/, split # with no arguments works like glob but works with special chars",
+        "stdout": "a\nb\nc",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 215,
+    "code": "$C ^ $\"",
+    "description": "swap case of character $C (char must be alphabetic)",
+    "examples": [
+      {
+        "stdin": "abVcDS",
+        "code": "print $_ ^ $\" for <> =~ /./g",
+        "stdout": "ABvCds",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 216,
+    "code": "pack \"H*\", $A",
+    "description": "convert a hex string $A into regular string",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print pack \"H*\", \"616263\"",
+        "stdout": "abc",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 217,
+    "code": "unpack \"%C*\", $A",
+    "description": "sum of ord of each char in $A",
+    "examples": []
+  },
+  {
+    "idx": 218,
+    "code": "unpack \"%B*\", $A",
+    "description": "number of 1 in binary representation of string $A",
+    "examples": []
+  },
+  {
+    "idx": 219,
+    "code": "unpack \"(A$N)*\", $A",
+    "description": "split string $A into chunks of $N",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"bruh\";\nprint join $/, unpack \"(A2)*\" # default last arg is $_",
+        "stdout": "br\nuh",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 220,
+    "code": "for",
+    "description": "for loop",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "for ($i = 0; $i < 5; $i++) {\n  print $i, $/\n}",
+        "stdout": "0\n1\n2\n3\n4",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "for (0..4) {\n  print $_, $/ # $_ is default for loop var\n}",
+        "stdout": "0\n1\n2\n3\n4",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print $_, $/ for 0..4 # one line for",
+        "stdout": "0\n1\n2\n3\n4",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 221,
+    "code": "grep {\n  //;\n  grep ($' % $_ < 1, 50..$') % 2\n} @A",
+    "description": "short nested grep",
+    "examples": []
+  },
+  {
+    "idx": 222,
+    "code": "//, map print $' * $_, @A for 1..5",
+    "description": "short nested for loop",
+    "examples": []
+  },
+  {
+    "idx": 223,
+    "code": "map {\n  //; # save outer $_ to $' (post match)\n  print $' + $_, $/ for 1..5\n} @A",
+    "description": "short nested map",
+    "examples": []
+  },
+  {
+    "idx": 224,
+    "code": "map",
+    "description": "apply function to each value of a list",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (1, 2, 3);\n@A = map {$_ * 2 + 1} @A # $_ is default map var\nprint join $/, @A",
+        "stdout": "3\n5\n7",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = (1, 2, 3);\n@A = map $_ * 2 + 1, @A # comma variation (only use with one statement)\nprint join $/, @A",
+        "stdout": "3\n5\n7",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 225,
+    "code": "eval $N =~ s/\\B/+/gr",
+    "description": "digit sum of $N",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = 123;\nprint eval s/\\B/+/gr",
+        "stdout": "6",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 226,
+    "code": "($% / 2) - ($% < 0) / 2",
+    "description": "floor divide $% by 2 (must use $%)",
+    "examples": []
+  },
+  {
+    "idx": 227,
+    "code": "$A >> $n ",
+    "description": "floor divide positive number $A by 2 ** $n",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = 5;\nprint $A >> 1",
+        "stdout": "2",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$A = 20;\n$A >>= 2;\nprint $A",
+        "stdout": "5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 228,
+    "code": "sprintf \"%0${L}d\", $B",
+    "description": "left pad $B string with $L length minimum",
+    "examples": []
+  },
+  {
+    "idx": 229,
+    "code": "~~@A",
+    "description": "length of @A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\nprint ~~@A",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\n$l = @A; # dont need inchworm if you cast to scalar in other ways\nprint $l",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\nprint @A + 5",
+        "stdout": "8",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 230,
+    "code": "and",
+    "description": "low precendence logical and",
+    "examples": [
+      {
+        "stdin": "1\n2\n5\n6",
+        "code": "$_ % 2 and $x += $_, $- += $x for <>;\nprint $-",
+        "stdout": "7",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 231,
+    "code": "or",
+    "description": "low precedence logical or",
+    "examples": [
+      {
+        "stdin": "1\n2\n5\n6",
+        "code": "$_ % 2 or $x += $_, $- += $x for <>;\nprint $-",
+        "stdout": "10",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 232,
+    "code": "$A =~ s/ *$//",
+    "description": "trim trailing space from $A",
+    "examples": []
+  },
+  {
+    "idx": 233,
+    "code": "v98.114.117.104",
+    "description": "v string",
+    "examples": [
+      {
+        "stdin": "50",
+        "code": "print 1e9.<>^v1",
+        "stdout": "000000000050",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print s00bruh0r x10for v10",
+        "stdout": "bruh\nbruh\nbruh\nbruh\nbruh\nbruh\nbruh\nbruh\nbruh\nbruh",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 234,
+    "code": "sub add {\n  my ($A, $B) = @_\n  $A + $B\n}\n\n$C = add 5, 3",
+    "description": "function / subroutine",
+    "examples": []
+  },
+  {
+    "idx": 235,
+    "code": "$A ? $B : $C",
+    "description": "ternary operator",
+    "examples": [
+      {
+        "stdin": "1\n2\n0\n4\n0\n21\n0\n4",
+        "code": "$_ ? $a : $b += ($z += $_) for <>; # lvalue ($_ ? $a : $b) += ($z += $_)\nprint $a * $b",
+        "stdout": "148",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 236,
+    "code": "$_ = eval s!\\B!*!gr while /../",
+    "description": "product of digits of $_ until it's less than 10",
+    "examples": []
+  },
+  {
+    "idx": 237,
+    "code": "$A =~ s/(.)(.)/$2$1/g",
+    "description": "swap every 2 chars of $Z",
+    "examples": [
+      {
+        "stdin": "badcfe",
+        "code": "print <> =~ s/(.)(.)/$2$1/gr",
+        "stdout": "abcdef",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 238,
+    "code": "s///egirl",
+    "description": "execute global insenstive-case return locale (joke egirl entry)",
+    "examples": [
+      {
+        "stdin": "hcciekn",
+        "code": "print s/(.)(.)/\"$2$1\"/egirl",
+        "stdout": "chicken",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 239,
+    "code": "use POSIX;\nprint ~~ strtol \"abc\", 36",
+    "description": "base conversion from a base containing `0-9a-z` (2-36) to decimal",
+    "examples": []
+  },
+  {
+    "idx": 240,
+    "code": "for $i (0..5) {\n  for $j (0..5) {\n    print $i + $j, $/\n  }\n}",
+    "description": "nested for loop with custom variable",
+    "examples": []
+  },
+  {
+    "idx": 241,
+    "code": "%A",
+    "description": "hash variable %A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "%A = qw(a b);\n$A{\"e\"} = 5;\nprint keys %A # unordered",
+        "stdout": "ea",
+        "links": []
+      },
+      {
+        "stdin": "abcdefabvcbaddfba",
+        "code": "$- += $H{$_}++ == 1 for <> =~ /./g;\nprint $-",
+        "stdout": "5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 242,
+    "code": "@A",
+    "description": "list variable @A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\nprint @A",
+        "stdout": "abc",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\nprint ~~@A # cast to scalar",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 243,
+    "code": "$#A",
+    "description": "dollactothorp: print the length of the @A - 1 (last index of @A)",
+    "examples": [
+      {
+        "stdin": "a b c d",
+        "code": "#!perl -a\nprint $#F",
+        "stdout": "3",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 244,
+    "code": "~~<@A>",
+    "description": "first item of list @A (only on first call, kind of like iterator)",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\nprint <@A> . $/",
+        "stdout": "a",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = qw(a b c);\nprint <@A> . $/ for @A",
+        "stdout": "a\nb\nc",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@a = (1,2);\nprint <@a> . $/ for 1..10 # cycles with empty element at the end of each",
+        "stdout": "1\n2\n\n1\n2\n\n1\n2\n\n1",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@a = (1, 2);\n{ # different block has different cycle\n  $j = 0;\n  print \"[\". <@a> . \"]\\n\";\n  {\n    print ~~<@a>, $/;\n    $j++ < 3 && redo\n  };\n  $i++ < 3 && redo\n}",
+        "stdout": "[1]\n1\n2\n\n1\n[2]\n2\n\n1\n2\n[]\n\n1\n2\n\n[1]\n1\n2\n\n1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 245,
+    "code": "A .. \"`\"",
+    "description": "char range list",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print \"@{['A' .. 'Z']}\" ",
+        "stdout": "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 246,
+    "code": "${\\map $A += $_, @A}",
+    "description": "get the last element of a list expression",
+    "examples": [
+      {
+        "stdin": "1\n2\n3",
+        "code": "print 2 * ${\\map $A += $_, 1..$_}, $A = $/ for <>",
+        "stdout": "2\n6\n12",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 247,
+    "code": "@{[ 1 + 1 ]}",
+    "description": "baby cart: regex / string interpolate the expression `1 + 1` as a list",
+    "examples": [
+      {
+        "stdin": "1 2 3",
+        "code": "@A = glob <>;\nprint \"@{[map $_ + 1, @A]}\"",
+        "stdout": "2 3 4",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = 6;\nprint /@{[3 + 3]}/ ? \"yes\" : \"no\"",
+        "stdout": "yes",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 248,
+    "code": "$A . $B",
+    "description": "string concatenate $A and $B",
+    "examples": []
+  },
+  {
+    "idx": 249,
+    "code": "eval \"\\$S =~ y/$A/$B/\"",
+    "description": "transliterate / translate $S with variable input chars $A and output $B",
+    "examples": [
+      {
+        "stdin": "w\nd",
+        "code": "$_ = \"wow\";\n$a = <>;\n$b = <>;\neval \"y/$a/$b/\";\nprint",
+        "stdout": "dod",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 250,
+    "code": "-($A < 0) + int $A",
+    "description": "floor a positive / negative number",
+    "examples": []
+  },
+  {
+    "idx": 251,
+    "code": "$A | 0",
+    "description": "floor a positive number $A",
+    "examples": []
+  },
+  {
+    "idx": 252,
+    "code": "$A + .5 | 0",
+    "description": "round a positive number $A",
+    "examples": []
+  },
+  {
+    "idx": 253,
+    "code": "sprintf \"%.f\", $_",
+    "description": "round a positive / negative number",
+    "examples": []
+  },
+  {
+    "idx": 254,
+    "code": "$_=$_%2?3*$_+1:$_/2|<>,$z++while$_-1",
+    "description": "store number of values of the collatz sequence of <> into $z",
+    "examples": []
+  },
+  {
+    "idx": 255,
+    "code": "$\\ += $_ + <@B> for @A",
+    "description": "zip sum of two lists @A and @B and store result in $\\",
+    "examples": []
+  },
+  {
+    "idx": 256,
+    "code": "@_",
+    "description": "subroutine argument list",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "sub F {\n  my ($a, $b) = @_; # \"my\" keyword denotes local var\n  $a < 1 and return $b;\n\n  F int $a / 2, $b * 2\n}\n\nprint F 5, 2;",
+        "stdout": "16",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 257,
+    "code": "print",
+    "description": "print something with arguments delimited by $, and ending with $\\",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = qw(1 2 3);\n$, = \"+\";\nprint @A",
+        "stdout": "1+2+3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print \"bruh\", \"nice\"",
+        "stdout": "bruhnice",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$\\ = \"wow\";\n$, = \"chicken\";\nprint 3, 5",
+        "stdout": "3chicken5wow\nccc",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 258,
+    "code": "substr $S, $A",
+    "description": "substring of string $S starting from index $A",
+    "examples": []
+  },
+  {
+    "idx": 259,
+    "code": "substr $S, $A, $B",
+    "description": "substring of length $B of string $S starting from index $A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "print substr \"abcdefgasdfsdf\", 6, 2",
+        "stdout": "ga",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print substr \"abcdefgasdfsdf\", 6, -2 # up to the -2 index",
+        "stdout": "gasdfs",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 260,
+    "code": "1 .. $n",
+    "description": "range from 1 to $n inclusive",
+    "examples": []
+  },
+  {
+    "idx": 261,
+    "code": "# ($`, $') = split $\", <>;\n<> =~ $\"",
+    "description": "split $\" seperated line once into 2 variables $` and $' respectively",
+    "examples": []
+  },
+  {
+    "idx": 262,
+    "code": "# chomp($` = <>); $' = `dd`;\n`dd` =~ $/",
+    "description": "split $/ seperated all of input into $` and $'",
+    "examples": []
+  },
+  {
+    "idx": 263,
+    "code": "vec",
+    "description": "treat string as bit vector",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$a = \"abc\";\nprint vec $a, 0, 8; # 8 bits offset of 0 chunks of 8 bits kinda like ord(($a =~ /./g)[0]) in this case",
+        "stdout": "97",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "printf \"%b\\n\", ord n;\nprint vec \"n\", $_, 1 for 1..7",
+        "stdout": "1101110\n1110110",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 264,
+    "code": "$A x $B",
+    "description": "string multiplication of $A by $B",
+    "examples": []
+  },
+  {
+    "idx": 265,
+    "code": "sqrt",
+    "description": "low precedence square root",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$x = 256;\nprint sqrt $x ** .5\nooo",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 266,
+    "code": "oct",
+    "description": "convert binary (base 2) or octal (base 8) string to decimal",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$B = \"1010\";\nprint oct \"b$B\"",
+        "stdout": "10",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$B = \"1010\";\nprint oct b . $B # bareword",
+        "stdout": "10",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$B = \"10\";\nprint oct $B",
+        "stdout": "8",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 267,
+    "code": "hex",
+    "description": "convert hexadecimal (base 16) string to decimal",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$B = \"10\";\nprint oct \"b$B\"",
+        "stdout": "16\nccc",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 268,
+    "code": "printf",
+    "description": "print values after applying format",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "printf \"%02d:02d\", 5, 32;",
+        "stdout": "05:32",
+        "links": []
+      },
+      {
+        "stdin": "5",
+        "code": "printf \"%b\", <>",
+        "stdout": "101",
+        "links": []
+      },
+      {
+        "stdin": "8",
+        "code": "printf \"%o\", <>",
+        "stdout": "10",
+        "links": []
+      },
+      {
+        "stdin": "15",
+        "code": "printf \"%x\", <>",
+        "stdout": "f",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 269,
+    "code": "sprintf",
+    "description": "return value of printf",
+    "examples": [
+      {
+        "stdin": "5",
+        "code": "print sprintf(\"%b\", <>) =~ y/0//",
+        "stdout": "1",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 270,
+    "code": "$_ = \"we\ngo\";\n/^/; # might need this before if you used regex on $_\n$T.=join(\"\",/^./mg).$/while s///g",
+    "description": "transpose $_ with \\n seperated values and store in $T",
+    "examples": []
+  },
+  {
+    "idx": 271,
+    "code": "$A = 3;\n$B = 5;\nprint+(<i like   chicken >)[$A <=> $B];",
+    "description": "3 way comparison with $A and $B\nless last, equal earliest, greater goldilocks (give me a better last one lol)",
+    "examples": []
+  },
+  {
+    "idx": 272,
+    "code": "@A = qw(i like chicken);\nprint $A[rand @A]",
+    "description": "print a random value from a list",
+    "examples": []
+  },
+  {
+    "idx": 273,
+    "code": "$_ = \"12 43 5 -32 43 1\";\ns!\\S+ !print $& - $', $/!ge",
+    "description": "apply a function on each consecutive pair of space seperated pairs of values",
+    "examples": []
+  },
+  {
+    "idx": 274,
+    "code": "$N = 10000;\n$B = 10;\n@D=(0)x!$N;\n$D[@D]=$N%$B,$N=$N/$B|0while$N",
+    "description": "store digits of $N in base $B into @D",
+    "examples": []
+  },
+  {
+    "idx": 275,
+    "code": "use Math'BigInt bgcd;\n$A = bgcd->from_base(\"chicken\", 36);\n$B = $A->to_base(36);",
+    "description": "base conversion from a base containing `0-9a-z` (2-36)",
+    "examples": []
+  },
+  {
+    "idx": 276,
+    "code": "use Math'BigInt bgcd;\n$A = bgcd->from_base(\"chikenchikenchikenchiken\", 6, \"chiken\");\n$B = $A->to_base(6, \"chiken\");",
+    "description": "base conversion from arbitrary base with specified base values",
+    "examples": []
+  },
+  {
+    "idx": 277,
+    "code": "grep",
+    "description": "filter a list by predicate",
+    "examples": [
+      {
+        "stdin": "1 2 3 4 5",
+        "code": "print join $/, grep {$_ % 2} glob <> # $_ is default grep var",
+        "stdout": "1\n3\n5",
+        "links": []
+      },
+      {
+        "stdin": "1\n2\n3\n4\n5",
+        "code": "print join $/, grep $_ % 2, <> # comma variation (only use with single statement)",
+        "stdout": "1\n3\n5",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 278,
+    "code": "sort",
+    "description": "sort a list by string comparison by default or custom sort",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "@A = (12, 21, 1, 31, 11111111111, 32);\nprint join $/, sort {$b cmp $a} @A # explicit reverse string sort\nooo",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "print sort \"hello\" =~ /./g",
+        "stdout": "ehllo",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "@A = (1, 4, 3, 12);\nprint join $/, sort {$a - $b} @A",
+        "stdout": "1\n3\n4\n12",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 279,
+    "code": "$A",
+    "description": "scalar variable $A",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$A = 3;\nprint $A",
+        "stdout": "3",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$A = \"hi\"; \nprint $A .= \"bruh\"",
+        "stdout": "hibruh",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 280,
+    "code": "print\"Hello, World!\n\"",
+    "description": "Hello World program",
+    "examples": []
+  },
+  {
+    "idx": 281,
+    "code": "/1/",
+    "description": "check if there is a `1` in the string",
+    "examples": [
+      {
+        "stdin": "123",
+        "code": "print <> =~ /1/ ? \"one\" : \"no one\"",
+        "stdout": "one",
+        "links": []
+      },
+      {
+        "stdin": "123\n23",
+        "code": "print /1/ ? \"one\" : \"no one\", $/ for <>",
+        "stdout": "one\nno one",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 282,
+    "code": "`dd`",
+    "description": "calls dd command from bash and returns scalar / list delimited by $/",
+    "examples": [
+      {
+        "stdin": "i like chicken\nand chicken likes me",
+        "code": "$A = `dd`;\nprint \"[$A]\"",
+        "stdout": "[i like chicken\nand chicken likes me]",
+        "links": []
+      },
+      {
+        "stdin": "i like chicken\nand chicken likes me",
+        "code": "$/ = \"l\";\n@A = `dd`;\nprint map {\"[$_]\"} @A",
+        "stdout": "[i l][ike chicken\nand chicken l][ikes me]",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 283,
+    "code": "glob <>",
+    "description": "split line of input on \\s+ and remove empty values (won't work if any `}{*~` present)",
+    "examples": []
+  },
+  {
+    "idx": 284,
+    "code": "use Math'BigInt bgcd;\n$n = <>;\nprint bgcd($n)->bfac",
+    "description": "print the factorial of $n as a bigint",
+    "examples": []
+  },
+  {
+    "idx": 285,
+    "code": "$L = @A = qw(a b c);\nsub c{c($_,@_)for\"@_\"+1..$L;push@C,\"@{[map$A[$_-1],@_]}\"x(@_<=$L)}c",
+    "description": "get combinations of @A from length 1 to length $L of arr and store into @C",
+    "examples": []
+  },
+  {
+    "idx": 286,
+    "code": "$L = @A = qw(a b c);\n@P = map\"@{[map$A[$_],/./g]}\"x/^[0-$#A]{0,$L}$/,0..$$",
+    "description": "get all permutations of @A from len 0 to length $L of arr and store into @P",
+    "examples": []
+  },
+  {
+    "idx": 287,
+    "code": "/./g",
+    "description": "list of chars",
+    "examples": [
+      {
+        "stdin": "bruh",
+        "code": "print join $\", <> =~ /./g",
+        "stdout": "b r u h",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$_ = lc \"BrUh\";\nprint join $/, map ord, /./g",
+        "stdout": "98\n114\n117\n104",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 288,
+    "code": "$A + $B",
+    "description": "add $A to $B",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$a = 3;\n$b = 5;\nprint $a + $b",
+        "stdout": "8",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$a = 3;\n$b = 5;\n$c = $a + $b;\nprint $c",
+        "stdout": "8",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$c = 3;\nprint $c + \"5\"",
+        "stdout": "8",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$c = 3;\nprint $c + \"5aaaa3\"",
+        "stdout": "8",
+        "links": []
+      },
+      {
+        "stdin": "43aw\n23",
+        "code": "$c = 3;\nprint $c + <>",
+        "stdout": "46",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 289,
+    "code": "chr",
+    "description": "character of the ascii value",
+    "examples": [
+      {
+        "stdin": "97",
+        "code": "$_ = <>;\nprint chr",
+        "stdout": "a",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$a = chr \"97az32\";\nprint $a",
+        "stdout": "a",
+        "links": []
+      },
+      {
+        "stdin": "100\n98\n97",
+        "code": "print \"a\" . chr for <>",
+        "stdout": "acabaa",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 290,
+    "code": "ord",
+    "description": "ascii value of character",
+    "examples": [
+      {
+        "stdin": "abc",
+        "code": "$_ = <>;\nprint ord",
+        "stdout": "97",
+        "links": []
+      },
+      {
+        "stdin": "abc",
+        "code": "print ord, $/ for <> =~ /./g",
+        "stdout": "97\n98\n99",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 291,
+    "code": "<>",
+    "description": "stdin (list / scalar)",
+    "examples": [
+      {
+        "stdin": "1\n2\n3",
+        "code": "print for <> # list context and preserves delimeter`,",
+        "stdout": "1\n2\n3",
+        "links": []
+      },
+      {
+        "stdin": "bruh",
+        "code": "print $_, $/ for <> =~ /./g # scalar contex",
+        "stdout": "b\nr\nu\nh",
+        "links": []
+      },
+      {
+        "stdin": "3\n7",
+        "code": "print <> * <>",
+        "stdout": "21",
+        "links": []
+      },
+      {
+        "stdin": "3 7",
+        "code": "$/ = $\";\nprint <> * <>",
+        "stdout": "21",
+        "links": []
+      },
+      {
+        "stdin": "bruh+bruh-cool",
+        "code": "$/ = \"+\";\nprint $_, \"\n\" for <> =~ /./g",
+        "stdout": "b\nr\nu\nh\n+",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 292,
+    "code": "$S =~ y///c",
+    "description": "length of $S",
+    "examples": [
+      {
+        "stdin": "nice plate",
+        "code": "$_ = <>;\nprint y///c",
+        "stdout": "9",
+        "links": []
+      },
+      {
+        "stdin": "nice plate",
+        "code": "$a = <>;\nprint $a =~ y///c",
+        "stdout": "9",
+        "links": []
+      }
+    ]
+  },
+  {
+    "idx": 293,
+    "code": "$S =~ y/1//",
+    "description": "count amount of `1` in string $S",
+    "examples": [
+      {
+        "stdin": "",
+        "code": "$_ = \"chicken 1 chicken 2 123\";\nprint y/1//",
+        "stdout": "2",
+        "links": []
+      },
+      {
+        "stdin": "",
+        "code": "$a = \"chicken 1 chicken 2 123\";\nprint $a =~ y/1//",
+        "stdout": "2\n",
+        "links": []
+      }
+    ]
+  }
+]

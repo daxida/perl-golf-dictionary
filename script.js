@@ -1,5 +1,15 @@
 "use strict";
 
+let jsonData = []; 
+fetch('entries.json')
+  .then(response => response.json())
+  .then(data => { 
+    jsonData = data;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+});
+
 const READER = new XMLHttpRequest() || new ActiveXObject("MSXML2.XMLHTTP");
 let QUERY = null;
 let CODE_ARR = null;
@@ -17,70 +27,63 @@ async function file_read(file) {
 }
 
 async function code_arr_text(code_arr) {
-  // Parses code_arr into displayable html
+  // JSON to html
 
-  let ind = 0;
-  return code_arr.map(x => {
-    const [i, code, description, example_arr] = x;
+  return jsonData.map((entry) => {
+    const hasExamples = (entry.examples.length > 0);
+
     let entry_html = `
-<table id = "filter-${i}" class = "filter-aaa" border="5">
-<tr>
-  <td class="code code-x" id = "code-${ind}"><xmp>${code}</xmp></td>
-  <td class="description">${description}</td>
-  <td class="${typeof example_arr === 'undefined' ? "example-hide" : "example"}">
-    <button onclick="[...document.getElementsByClassName('${i}')].map(d=>d.classList.toggle('show'));">Examples</button>
-  </td>
-</tr>
+<table id="filter-${entry.idx}" class="filter-aaa" border="5">
+  <tr>
+    <td class="code code-x" id="code-${entry.idx}"><xmp>${entry.code}</xmp></td>
+    <td class="description">${entry.description}</td>
+    <td class="${hasExamples ? "example" : "example-hide"}">
+      <button onclick="[...document.getElementsByClassName('${entry.idx}')].map(d=>d.classList.toggle('show'));">Examples</button>
+    </td>
+  </tr>
 </table>
 `;
-    ind += 1;
-    let example_dropdown = ""
+    
+    if (!hasExamples) return entry_html;
+    
+    
+    let example_dropdown = entry.examples.map((example) => {
+      let links = "";
+      if (example.links.length > 0) {
+        links = example.links
+          .map((link) => `<a href="${link}">${link}</a>`)
+          .join("<br>");
+      }
 
-    if (typeof example_arr !== "undefined") {
-      example_dropdown = example_arr.map(ex => {
-        let [stdin, ex_code, stdout] = ["None", "", ""];
-        console.log(ex);
-        
-        const sz = ex.length
-        if (sz == 3) {
-          [stdin, ex_code, stdout] = ex;
-        } else if (sz == 2) {
-          [ex_code, stdout] = ex;
-        } else if (sz == 1) {
-          ex_code = ex;
-        } else {
-          throw new Error("Unimplemented (Example of unknown size)")
-        }
+      // TODO: FIX THE LINKS
 
-        const example_html = `
+      let example_html = `
 <tr class="tr-example">
   <tr>
-    <td class="snippet code-x" id="code-${ind}"><xmp>${ex_code}</xmp></td>
+    <td class="snippet" id="code-${entry.idx}">
+${links}
+<code class="code-x">${example.code}</code>
+    </td>
     <td>
       <table>
         <tr>
-          <td class="snippet-input">I: ${stdin}</td>
+          <td class="snippet-input">I: ${example.stdin}</td>
         </tr>
         <tr>
-          <td class="snippet-output">O: ${stdout}</td>
+          <td class="snippet-output">O: ${example.stdout}</td>
         </tr>
       </table>
     </td>
   </tr>
 </tr>`
+      return example_html;
+    }).join("\n"); 
 
-        console.log(example_html)
-
-        ind += 1; 
-        return example_html;
-      }).join("\n");
-    }
-
-    entry_html += `<table id = "filter-${i}" class="table-example dropdown ${i}">${example_dropdown}</table>`;
+    entry_html += `<table id="filter-${entry.idx}" class="table-example dropdown ${entry.idx}">${example_dropdown}</table>`;
+    console.log("NEW", entry_html)
 
     return entry_html;
-
-  }).join("\n")
+  }).join("\n");
 }
 
 async function code_mirror_rep() {
@@ -154,7 +157,7 @@ $(document).ready(() => {
   file_wait();
 
   $("#QUERY").on("keyup", (e) => {
-    console.log("huh");
+    // console.log("huh");
     if (e.keyCode != 13) {
       return;
     }

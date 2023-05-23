@@ -55,27 +55,34 @@ async function code_arr_text(code_arr) {
           .join("<br>");
       }
 
-      // TODO: FIX THE LINKS
-
+      if (!example.stdin) example.stdin = "None";
+    
       let example_html = `
 <tr class="tr-example">
   <tr>
-    <td class="snippet" id="code-${entry.idx}">
-${links}
-<code class="code-x">${example.code}</code>
+    <td colspan="2" class="snippet" id="code-${entry.idx}">
+      <table>
+        <tr>
+          <td>${links}</td>
+        </tr>
+        <tr>
+          <td class="code-x"><code>${example.code}</code></td>
+        </tr>
+      </table>
     </td>
     <td>
       <table>
         <tr>
-          <td class="snippet-input">I: ${example.stdin}</td>
+          <td class="snippet-input">${example.stdin}</td>
         </tr>
         <tr>
-          <td class="snippet-output">O: ${example.stdout}</td>
+          <td class="snippet-output">${example.stdout}</td>
         </tr>
       </table>
     </td>
   </tr>
 </tr>`
+
       return example_html;
     }).join("\n"); 
 

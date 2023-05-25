@@ -1,12 +1,17 @@
 "use strict";
 
 let jsonData = []; 
-fetch('entries.json')
+fetch('database/entries.json')
   .then(response => response.json())
   .then(data => { 
     jsonData = data;
   })
   .catch(error => {
+    if (error.code === 'ENOENT') {
+      console.log('File not found!');
+    } else {
+      throw err;
+    }
     console.error('Error:', error);
 });
 
@@ -14,7 +19,8 @@ const READER = new XMLHttpRequest() || new ActiveXObject("MSXML2.XMLHTTP");
 let QUERY = null;
 let CODE_ARR = null;
 
-file_read("perl_query.pl");
+// TO REMOVE
+file_read("database/perl_query.pl");
 
 async function file_read(file) {
   READER.open("get", file, true); 
